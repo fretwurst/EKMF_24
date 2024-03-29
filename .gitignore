@@ -46,7 +46,7 @@ vignettes/*.pdf
 po/*~
 
 # folder
-public/
+# public/
 
 # DS_Store
 .DS_Store
