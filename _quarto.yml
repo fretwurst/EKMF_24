@@ -1,6 +1,6 @@
 project:
   type: book
-  output-dir: _site
+  output-dir: docs
   resources: 
     - files/files/Logistische+Regression_Zerback_Wirz_OA.pdf
 
