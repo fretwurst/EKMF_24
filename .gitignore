@@ -1,3 +1,4 @@
+/.quarto/
 # History files
 .Rhistory
 .Rapp.history
@@ -31,6 +32,8 @@ vignettes/*.pdf
 # knitr and R markdown default cache directories
 *_cache/
 /cache/
+**/*_cache/
+
 
 # Temporary files created by R markdown
 *.utf8.md
@@ -45,5 +48,153 @@ docs/
 # translation temp files
 po/*~
 
-# RStudio Connect folder
-rsconnect/
+# folder
+public/
+*_files
+**/*_files
+Folien/**/images
+Folien/**/*.html
+
+# DS_Store
+.DS_Store
+**/.DS_Store
+
+# Quarto 
+.quarto/
+/.luarc.json
+search.json
+
+# images
+**/images/ggsave/
+
+######################################
+
+## LaTeX
+
+#####################################
+
+
+## Core latex/pdflatex auxiliary files:
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+
+## Intermediate documents:
+*.dvi
+*.xdv
+*-converted-to.*
+
+## Bibliography auxiliary files (bibtex/biblatex/biber):
+*.bbl
+*.bcf
+*.blg
+*-blx.aux
+*-blx.bib
+*.run.xml
+
+## Build tool auxiliary files:
+*.fdb_latexmk
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+
+## Build tool directories for auxiliary files
+# latexrun
+latex.out/
+
+## Auxiliary and intermediate files from other packages:
+# algorithms
+*.alg
+*.loa
+
+# amsthm
+*.thm
+
+# beamer
+*.nav
+*.pre
+*.snm
+*.vrb
+
+# changes
+*.soc
+
+# comment
+*.cut
+
+# glossaries
+*.acn
+*.acr
+*.glg
+*.glo
+*.gls
+*.glsdefs
+*.lzo
+*.lzs
+*.slg
+*.slo
+*.sls
+
+# hyperref
+*.brf
+
+# knitr
+*-concordance.tex
+# TODO Uncomment the next line if you use knitr and want to ignore its generated tikz files
+# *.tikz
+*-tikzDictionary
+
+# listings
+*.lol
+
+# luatexja-ruby
+*.ltjruby
+
+# makeidx
+*.idx
+*.ilg
+*.ind
+
+# minitoc
+*.maf
+*.mlf
+*.mlt
+*.mtc[0-9]*
+*.slf[0-9]*
+*.slt[0-9]*
+*.stc[0-9]*
+
+
+# tcolorbox
+*.listing
+
+# thmtools
+*.loe
+
+# titletoc
+*.ptc
+
+# todonotes
+*.tdo
+
+# xcolor
+*.xcp
+
+
+# auto folder when using emacs and auctex
+./auto/*
+*.el
+
+# Makeindex log files
+*.lpz

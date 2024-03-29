@@ -1,0 +1,90 @@
+
+# Einleitung und Syllabus {.unnumbered}
+
+```{r}
+#| echo: false 
+#| warning: false
+source("files/_common.R")
+```
+
+::: {.content-visible when-format="html"}
+::: {.callout-tip collapse="true"}
+## Videointro zur Seite hier klicken
+
+{{< video https://youtu.be/lig9JrKCPEE width="100%" height="400" >}}
+:::
+:::
+
+## Syllabus
+
+::: column-body-outset-right
+::: {.content-visible when-format="html"}
+```{r}
+
+Syllabus <- readxl::read_excel("files/Syllabus.xlsx")
+
+Syllabus  |>
+  mutate(Inhalt = sprintf('<p><a href = "%s">%s</a> ', Links, Titel),
+         Inhalt = map(Inhalt, gt::html),
+         Folien = sprintf('<p><a href = "%s">%s</a> ', Folien, Sitzung),
+         Folien = map(Folien, gt::html)) |>
+         select(Sitzung, Termin, Inhalt, Folien, Gegenstand) |>
+  gt::gt()  |>
+  gt::cols_align("left")  |>
+  gt::fmt_date(
+    columns = Termin,
+    date_style = "day_m", 
+    locale = "de_CH"
+  )  |>
+  gt::cols_width(
+   Gegenstand ~ "40%"
+  )
+  
+```
+:::
+:::
+
+## Vorwort
+
+Sicher freuen Sie sich schon auf "Statistik: Aufbau", und ich glaube, Sie haben allen Grund dazu. Manche freuen sich weniger -- was ja auch normal und ok ist. Wieder andere, denken lieber daran, wie das Leben so sein wird, wenn Sie "Statistik: Aufbau" hinter sich haben. Ihnen allen soll dieser Begleittext zur Seite stehen, damit Sie aus dem Modul das für sich Beste rausholen. Diejenigen, die in der Statistik ein mächtiges Tool entdecken, will ich ein tiefergehendes Verständnis ermöglichen. Denen, die die Statistik einfach gut absolvieren wollen, soll das Wichtigste vermittelt werden und die mit Graus auf das Modul schauen, soll das Grauen genommen und etwas Greifbares und Handhabbares angeboten werden, das sich -- mit zumutbaren Investitionen -- lösen lässt. Hier in der Einleitung schreibe ich Ihnen, was ich über den Sinn und die Mächtigkeit von Statistik denke sowie die möglichen Ursachen für das Unbehagen denke.\
+\noindent Liebe Grüsse\
+Benjamin Fretwurst
+
+## Was bringt uns Statistik
+
+Unser Alltag ist von Beobachtungen geprägt, aus denen wir etwas über uns und die Welt lernen. Wir stellen Vermutungen an und haben das Gefühl, dass wir wissen, wie es läuft. Das heisst, wir machen viele Beobachtungen und ziehen unsere Schlüsse daraus. Wir entwickeln also aus empirischen Beobachtungen Theorien. Diese Beobachtungen sind nur nicht sehr systematisch und die Schlüsse, die wir aus ihnen ziehen sind mal mehr von einer Erinnerung und mal mehr von einer anderen Erinnerung geprägt. Wenn wir an dieses Erfahrungswissen etwas wissenschaftlicher herangehen wollen, um systematisch Erkenntnisse zu erlangen, auf die wir uns besser verlassen können, dann machen wir emprische Forschung.
+
+blabla
+
+------------------------------------------------------------------------
+
+**Was beschreibt die Funktion von Statistik am besten?**
+
+```{r}
+#| echo: false
+
+q_Intro_1 <- c("Studierende in Angst und Schrecken versetzen.",
+   "Sichert die Stabilität von Gebäuden.",
+   answer = "Eine Kulturtechnik zur Beschreibung und Verarbeitung von Beziehungen zwischen Beobachtungen."
+)
+```
+
+`r if(knitr::is_html_output()){webexercises::longmcq(q_Intro_1)} else {"Versuchen Sie es mit Ihren eigenen Worten."}`
+
+------------------------------------------------------------------------
+
+## Überblick Analysemethoden
+
+Der folgende Überblick zeigt die statistischen Verfahren, mit deren Hilfe kausale Zusammenhänge, Unterschiede und Datengruppierungen analysiert werden können. Diese verschiedenen Analysemethoden ermöglichen es, Daten aus unterschiedlichen Blickwinkeln zu analysieren. Man kann also mit denselben Variablen eine Zusammenhangsanalyse machen oder sie auf Unterschiede hin analysieren oder schauen, ob es Interdependenzen gibt, sie als Gruppen bilden. Die zugrundeliegenden Beziehungen in den Daten sind natürlich immer dieselben. Das liegt daran, dass Unterschiede durch Zusammenhänge entstehen und Zusammenhänge aufgrund von Unterschieden. Beides finden seine Ursache darin, dass Variablen und Fälle Gruppen bilden; und gleichzeitig entstehen die Gruppen durch die Zusammenhänge und Unterschiede.
+
+blabla 
+
+[![Systematik gesamt](images/Analyseschema-total2.png){fig-align="center" width="100%"}](images/Analyseschema-total2.pdf)
+
+## Zitation dieser Seite
+
+------------------------------------------------------------------------
+
+Zitation: Fretwurst, B. (2022). *Statistik und Datenanalyse: Aufbau. Begleittext zum Modul am IKMZ im HS22.* https://www.ikmz.uzh.ch/static/methoden/Statistik-Aufbau/. Abrufdatum: \[aktuelles Datum\].
+
+------------------------------------------------------------------------

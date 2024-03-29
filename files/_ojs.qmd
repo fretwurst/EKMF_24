@@ -1,0 +1,78 @@
+```{ojs}
+//| echo: false
+
+function quizInput({ questions, options}) {
+  let answers = questions.map(() => null);
+  let root = htl.html`<div
+      style="
+        display: grid;
+        grid-template-columns: 10% 10% 70% 10%;"
+    >
+      ${options.map(
+        (opt) => htl.html`<div style="font-weight: bold">${opt}</div>`
+      )}
+      <div style="font-weight: bold">Aussagen</div>
+      <div style="font-weight: bold"></div>
+      ${Array.from(questions.entries(), ([i, [question, correct]]) =>
+        quizInputRow({
+          question,
+          options,
+          correct,
+          onChange: (newAnswer) => {
+            answers[i] = newAnswer;
+            root.value = answers;
+            root.dispatchEvent(new CustomEvent("input"));
+          }
+        })
+      )}
+    </div>`;
+  root.value = answers;
+  return root;
+}
+
+function quizInputRow({
+  question,
+  options,
+  correct,
+  onChange = () => {}
+}) {
+  let root = htl.html`<div>`;
+
+  function setAnswer(answer, initial = false) {
+    morph(
+      root,
+      htl.html`<div style="display: contents"> 
+      <form style="display: contents">
+        ${options.map(
+          (opt) =>
+            htl.html`<label>&emsp;</label> 
+            <input  
+              name=${question} &emsp;
+              type="radio"
+              value="${opt}"
+              checked=${opt === answer}
+              onChange=${() => setAnswer(opt)}
+            >
+            </input>`
+        )}
+      </form>
+      <div>${question}</div>
+      <div> &emsp; ${
+       answer === null ? "" : answer === correct ? "🟢" : "🔴"
+      }</div>
+    </div>`
+    );
+
+    root.value = answer;
+    if (!initial) {
+      root.dispatchEvent(new CustomEvent("input"));
+      onChange(answer);
+    }
+  }
+
+  setAnswer(null, true);
+  return root;
+}
+
+morph = require("https://bundle.run/nanomorph@5.4.2")
+```

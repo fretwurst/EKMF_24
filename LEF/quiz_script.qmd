@@ -1,0 +1,101 @@
+
+
+```{ojs}
+//| echo: false
+
+round = (n, places) => {
+  if (!places) return Math.round(n);
+  const d = 10 ** places;
+  return Math.round(n * d) / d;
+}
+
+function quizInput({ questions, options}) {
+  let answers = questions.map(() => null);
+  let root = htl.html`<div
+      style="
+        display: grid;
+        grid-template-columns: 10% 10% 70% 10%;"
+    >
+      ${options.map(
+        (opt) => htl.html`<div style="font-weight: bold; font-size: HUGE">${opt}</div>`
+      )}
+      <div style="font-weight: bold">Aussagen</div>
+      <div style="font-weight: bold"></div>
+      ${Array.from(questions.entries(), ([i, [question, correct]]) =>
+        quizInputRow({
+          question,
+          options,
+          correct,
+          onChange: (newAnswer) => {
+            answers[i] = newAnswer;
+            root.value = answers;
+            root.dispatchEvent(new CustomEvent("input"));
+          }
+        })
+      )}
+    </div>`;
+  root.value = answers;
+  return root;
+}
+
+function quizInputRow({
+  question,
+  options,
+  correct,
+  onChange = () => {}
+}) {
+  let root = htl.html`<div>`;
+
+  function setAnswer(answer, initial = false) {
+    morph(
+      root,
+      htl.html`<div style="display: contents"> 
+      <form style="display: contents">
+        ${options.map(
+          (opt) =>
+            htl.html`<label>&emsp;</label> 
+            <input  
+              name=${question} &emsp;
+              type="radio"
+              value="${opt}"
+              checked=${opt === answer}
+              onChange=${() => setAnswer(opt)}
+            >
+            </input>`
+        )}
+      </form>
+      <div>${question}</div>
+      <div> &emsp; ${
+       answer === null ? "" : answer === correct ? "💚" : "❌"
+      }</div>
+    </div>`
+    );
+
+    root.value = answer;
+    if (!initial) {
+      root.dispatchEvent(new CustomEvent("input"));
+      onChange(answer);
+    }
+  }
+
+  setAnswer(null, true);
+  return root;
+}
+
+morph = require("https://bundle.run/nanomorph@5.4.2")
+
+MathJax = require("https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML")
+  .catch(() => window.MathJax)
+  .then(MathJax => {
+    MathJax.Hub.Config({
+      CommonHTML: { scale: 110 }, // scaling to get the same size as katex (but katex still has more spacing between lines...)
+      tex2jax: { inlineMath: [["$", "$"], ["\\(", "\\)"]] },
+      displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+      processEscapes: true,
+      TeX: { extensions: ["autoload-all.js"] },
+    });
+    return new Promise(resolve =>
+      MathJax.Hub.Register.StartupHook("End", () => resolve(MathJax))
+    );
+  })
+```

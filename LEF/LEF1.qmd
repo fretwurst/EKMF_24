@@ -1,0 +1,259 @@
+# LEF 1 {#LEF1 .unnumbered .rounded-box background-image="images/Vierwald.jpg"}
+
+
+## Essayfragen {.unnumbered}
+
+1. Was ist der Unterschied zwischen unstandardisierten und standardisierten Kennwerten?
+
+2. Welche Masse der zentralen Tendenz kennen Sie?
+
+3. Welche Streumasse kennen Sie?
+
+4. Was kommt raus, wenn man die Covarianz einer Variablen mit sich selbst berechnet?
+
+6. a) Welche Skalenniveaus kennen Sie?
+
+   b) Was macht eine Nominalskala aus?
+
+   c) Was macht eine metrische Skala aus?
+
+
+## MC-Fragen {.unnumbered}
+
+### MC 1.1. {.unnumbered}
+
+::: {.callout-warning title="MC 1.1: Sind folgende Aussagen richtig oder falsch?"}
+
+```{ojs}
+//| echo: false
+
+MC_1_1 = [
+    ["Der Mittelwert ist dasselbe wie der Durchschnitt.", "richtig"],
+    ["Der Mittelwert einer dichotomen Variablen entspricht dem Prozentsatz der 1-Werte.", "richtig"],
+    ['Der Mittelwert wird auch als "Mittel" oder "Arithmetisches Mittel" bezeichnet.', "richtig"],
+    ["Je grösser ein Mittelwert ist, desto eher ist er signifikant.", "falsch"]
+]
+
+viewof answers_1_1 = quizInput({
+  questions: MC_1_1,
+  options: ["richtig", "falsch"]
+})
+
+Punkte_1_1 = {
+const Sum = 
+    (answers_1_1[0] == MC_1_1[0][1])*1 + 
+    (answers_1_1[1] == MC_1_1[1][1])*1 + 
+    (answers_1_1[2] == MC_1_1[2][1])*1 + 
+    (answers_1_1[3] == MC_1_1[3][1])*1 
+
+var Punkte_1_1 = Sum - 2
+if (Punkte_1_1 < 1) {Punkte_1_1 = 0}
+return(Punkte_1_1)
+}
+```
+
+**Punkte: \${Punkte_1_1}**
+
+:::
+
+{{< pagebreak >}}
+
+### MC 1.2. {.unnumbered}
+
+::: {.callout-warning title="MC 1.2: Sind folgende Aussagen richtig oder falsch?"}
+
+```{ojs}
+//| echo: false
+
+MC_1_2 = [
+    ["Die Standardabweichung ist die standardisierte Form der Varianz.", "falsch"],
+    ["Die Standardabweichung hat n-1 Freiheitsgrade.", "richtig"],
+    ['Die Standardabweichung "s" liegt immer zwischen 0 und 1.', "falsch"],
+    ["Die Standardabweichung ist die durchschnittliche Abweichung vom Mittelwert.", "falsch"]
+]
+
+viewof answers_1_2 = quizInput({
+  questions: MC_1_2,
+  options: ["richtig", "falsch"]
+})
+
+Punkte_1_2 = {
+const Sum = 
+    (answers_1_2[0] == MC_1_2[0][1])*1 + 
+    (answers_1_2[1] == MC_1_2[1][1])*1 + 
+    (answers_1_2[2] == MC_1_2[2][1])*1 + 
+    (answers_1_2[3] == MC_1_2[3][1])*1 
+
+var Punkte_1_2 = Sum - 2
+if (Punkte_1_2 < 1) {Punkte_1_2 = 0}
+return(Punkte_1_2)
+}
+```
+
+**Punkte: \${Punkte_1_2}**
+
+:::
+
+### MC 1.3. {.unnumbered}
+
+::: {.callout-warning title="MC 1.3: Sind folgende Aussagen richtig oder falsch?"}
+
+```{ojs}
+//| echo: false
+
+MC_1_3 = [
+    ["Die Covarianz ist das Quadrat der Korrelation.", "falsch"],
+    ["Die Covarianz ist skalenabhängig und kann daher negativ oder positiv und unendlich klein oder gross sein.", "richtig"],
+    ['Die Korrelation "r" liegt immer zwischen 0 und 1.', "falsch"],
+    ["Eine Korrelation von genau 0 kann nie signifikant sein.", "richtig"]
+]
+
+viewof answers_1_3 = quizInput({
+  questions: MC_1_3,
+  options: ["richtig", "falsch"]
+})
+
+Punkte_1_3 = {
+const Sum = 
+    (answers_1_3[0] == MC_1_3[0][1])*1 + 
+    (answers_1_3[1] == MC_1_3[1][1])*1 + 
+    (answers_1_3[2] == MC_1_3[2][1])*1 + 
+    (answers_1_3[3] == MC_1_3[3][1])*1 
+
+var Punkte_1_3 = Sum - 2
+if (Punkte_1_3 < 1) {Punkte_1_3 = 0}
+return(Punkte_1_3)
+}
+```
+
+**Punkte: \${Punkte_1_3}**
+
+:::
+
+### MC 1.4. {.unnumbered}
+
+::: {.callout-warning title="MC 1.4: Sind folgende Aussagen richtig oder falsch?"}
+
+```{ojs}
+//| echo: false
+
+MC_1_4 = [
+    ["Bei der bivariaten Korrelation sind r und die Wurzel aus R² identisch.", "richtig"],
+    ["Das b einer bivariaten Regressionsgeraden liegt immer zwischen -1 und 1.", "falsch"],
+    ['Wenn das b nicht signifikant ist, kann nicht mit 95% Wahrscheinlichkeit ausgeschlossen werden, dass es in Wirklichkeit Null ist oder ein zum Stichprobenwert entgegengesetztes Vorzeichen hat.', "richtig"],
+    ["Wenn ein b signifikant ist, dann ist auch BETA signifikant.", "richtig"]
+]
+
+viewof answers_1_4 = quizInput({
+  questions: MC_1_4,
+  options: ["richtig", "falsch"]
+})
+
+Punkte_1_4 = {
+const Sum = 
+    (answers_1_4[0] == MC_1_4[0][1])*1 + 
+    (answers_1_4[1] == MC_1_4[1][1])*1 + 
+    (answers_1_4[2] == MC_1_4[2][1])*1 + 
+    (answers_1_4[3] == MC_1_4[3][1])*1 
+
+var Punkte_1_4 = Sum - 2
+if (Punkte_1_4 < 1) {Punkte_1_4 = 0}
+return(Punkte_1_4)
+}
+```
+
+**Punkte: \${Punkte_1_4}**
+
+:::
+
+### MC 1.5. {.unnumbered}
+
+::: {.callout-warning title="MC 1.5: Sind folgende Aussagen richtig oder falsch?"}
+
+```{ojs}
+//| echo: false
+
+MC_1_5 = [
+    ["Statistische Signifikanz bedeutet im Grunde wissenschaftliche Relevanz.", "falsch"],
+    ["Bei kleinen Stichproben können Ergebnisse auch schon mal signifikant werden, obwohl die Effekte so kleine sind, dass sie zu vernachlässigen sind.", "falsch"],
+    ['Je grösser n, desto schneller wird derselbe Effekt (z.B. Mittelwertunterschied) signifikant.', "richtig"],
+    ["Wenn man einmal ein Signifkanzniveau (z.B. 95%) festgelegt hat, sollte man auch dabei bleiben.", "richtig"]
+]
+
+viewof answers_1_5 = quizInput({
+  questions: MC_1_5,
+  options: ["richtig", "falsch"]
+})
+
+Punkte_1_5 = {
+const Sum = 
+    (answers_1_5[0] == MC_1_5[0][1])*1 + 
+    (answers_1_5[1] == MC_1_5[1][1])*1 + 
+    (answers_1_5[2] == MC_1_5[2][1])*1 + 
+    (answers_1_5[3] == MC_1_5[3][1])*1 
+
+var Punkte_1_5 = Sum - 2
+if (Punkte_1_5 < 1) {Punkte_1_5 = 0}
+return(Punkte_1_5)
+}
+```
+
+**Punkte: \${Punkte_1_5}**
+
+:::
+
+### MC 1.6. {.unnumbered}
+
+::: {.callout-warning title="MC 1.6: Sind folgende Aussagen richtig oder falsch?"}
+
+```{ojs}
+//| echo: false
+
+MC_1_6 = [
+    ["Wenn das Konfidenzintervall eines Kennwertes kleiner als .05 ist, dann ist es signifikant.", "falsch"],
+    ["Wenn das Konfidenzintervall eines Mittelwertes die 0 nicht einschliesst, dann ist der Mittelwert signifikant von 0 verschieden.", "richtig"],
+    ['Wählt man ein höheres Signifikanzniveau (z.B. 99% statt 95%), dann wird das Konfidenzintervall breiter.', "richtig"],
+    ["Je breiter ein Konfidenzintervall, desto besser ist ein Kennwert interpretierbar.", "falsch"]
+]
+
+viewof answers_1_6 = quizInput({
+  questions: MC_1_6,
+  options: ["richtig", "falsch"]
+})
+
+Punkte_1_6 = {
+const Sum = 
+    (answers_1_6[0] == MC_1_6[0][1])*1 + 
+    (answers_1_6[1] == MC_1_6[1][1])*1 + 
+    (answers_1_6[2] == MC_1_6[2][1])*1 + 
+    (answers_1_6[3] == MC_1_6[3][1])*1 
+
+var Punkte_1_6 = Sum - 2
+if (Punkte_1_6 < 1) {Punkte_1_6 = 0}
+return(Punkte_1_6)
+}
+
+```
+
+**Punkte: \${Punkte_1_6}**
+
+:::
+
+```{ojs}
+//| echo: false
+
+Punkte_1_max = 12
+
+Punkte_1_Gesamt = Punkte_1_1 + Punkte_1_2 + Punkte_1_3 + Punkte_1_4 + Punkte_1_5 + Punkte_1_6
+
+Prozent_1 = round(100*Punkte_1_Gesamt/Punkte_1_max, 0)
+
+Note_1 = round((round(Punkte_1_Gesamt/Punkte_1_max,1)*10+2)/2, 1) 
+
+```
+
+::: {style="font-size: 24px!important"}
+
+**Für die MC der LEF 1: \${Punkte_1_Gesamt} von \${Punkte_1_max} Punkten, was \${Prozent_1}% und etwa einer \${Note_1} entspricht.**
+
+:::

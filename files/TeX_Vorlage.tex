@@ -1,0 +1,547 @@
+\documentclass[twoside, pagesize, fontsize=11pt, dvipsnames]{scrreport} %
+\usepackage[ngerman]{babel}
+\usepackage{anyfontsize} % jede Schriftgrösse eben
+\usepackage[table]{xcolor}
+\usepackage{tabu}
+\usepackage{svg}
+\usepackage{fontenc}
+\usepackage{eurosym}
+\usepackage{soul}           %% Sperren und Schafe stehlen
+
+ \usepackage{enumerate}      %% Nummerieren
+ \usepackage{ifthen}         %% Wenn-Dann eben
+ \usepackage{array}          %% besserer Mathesatz
+ \usepackage[fleqn,reqno]{amsmath}            %% für Mathematiksatz
+ \usepackage{amssymb}           %% für Symbole
+
+ \usepackage{marginnote}        %% Randnotizen (für Hypref)
+ \usepackage{booktabs}          %% bessere Linien in Tabellen
+ \usepackage{longtable}
+ \usepackage{makecell}
+\usepackage{graphicx}
+ \usepackage{float}             %% Gleitobjektumgebungen
+ \usepackage{flafter}           %% floats hinter ersten Verweis
+ \usepackage{rotfloat, rotating}      %% drehen
+ \usepackage{morefloats}    %% erweitert die Möglichkeiten
+
+\usepackage[most]{tcolorbox}
+
+ \usepackage{titletoc}
+ \usepackage{afterpage}
+
+ \usepackage{hanging}
+ \usepackage{natbib}
+%\bibliographystyle{apalike}
+% \usepackage{babelbib}
+% \usepackage{bibgerm}
+
+%% für huxtables
+\usepackage{calc}
+%\usepackage{tabularx}
+\usepackage{threeparttable}
+% ende für huxtables
+\usepackage{wrapfig}
+ \usepackage{fancybox}          %% Schöne Boxen
+ \usepackage{nameref}
+ \usepackage[ngerman]{varioref}
+
+ \usepackage{pdfpages}
+ \usepackage{setspace}
+ \usepackage{boxedminipage}     %% umrahmte Boxen
+ \usepackage{multicol}          %% mehrspaltige Zeilen
+ \usepackage{epsfig,lscape}     %% Graphiken auch Quer
+
+\usepackage[stable, norule, flushmargin]{footmisc} %% Fußgut
+
+ \usepackage[np]{numprint}  %%Zahlen an Komma ausrichten
+
+ \usepackage[mla]{ellipsis}       %% Auslassungspunkte
+% \usepackage[newcommands]{ragged2e} %Verbesserung der Seitenaufteilung
+ \usepackage[safe]{textcomp} %zusätzliche Zeichen, wie schwarze Punkte
+
+%%%% hyperref %%%%
+\usepackage[hyphens]{url} %% URLs sauber einfügen und umbrechen - muss vor hyperref
+\usepackage[pdfa=true, pdflang = de, colorlinks = true, allcolors = darkgray]{hyperref}
+%%%% muss alles hinter hyperref, weil es sonst package-clashes erzeugt:
+\usepackage{accsupp}    %% für Barrierefreiheit
+\usepackage{pdfcomment} %% für Barrierefreiheit
+%\PassOptionsToPackage{hyphens}{accsupp} %% übergibt hyphens für das url-Paket, das in accsupp ohne diese Option geladen wird.
+\PassOptionsToPackage{hyphens}{pdfcomment} %% übergibt hyphens für das url-Paket, das in pdfcomment ohne diese Option geladen wird.
+%%%%
+
+%$doc-class.tex()$
+
+\usepackage{twoopt}
+
+\usepackage{paralist}
+\usepackage{siunitx}
+
+\usepackage{pdflscape}
+
+\usepackage{colortbl}
+
+%\usepackage[style=authoryear,maxcitenames=2, backend=biber, isbn=false,doi=false, eprint = false]{biblatex}
+
+%___________________  Pakete Ende  ____________________________________________
+
+$if(csl-refs)$
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc} % for \widthof, \maxof
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\maxof{\widthof{#1}}{\csllabelwidth}}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth}{#1}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+$endif$
+
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+%\def\tightlist{}
+
+%%%%%%%%%%%%%%%%%%%%%  Größen ändern gegen LaTeXs Hysterie %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\widowpenalty=10000 % erschwert Hurenkindern das Leben
+\clubpenalty=3000 % erschwert Schusterjungen das Leben
+\tolerance=300  %Wortabstände dehnbarer; fürs Final auf 300!!
+\hbadness= 300
+  \emergencystretch= 1.5em
+ \hfuzz = 0.3pt
+ \vfuzz \hfuzz
+ \raggedbottom
+
+%% erste Zeile einrücken
+\setlength{\parindent}{1em}
+\newcommand{\Absatz}{\vspace{4ex} \noindent}
+
+%% Einzug für Formeln
+\setlength\mathindent{1pc}
+%% Fußnoten
+%\counterwithout{footnote}{chapter} % über Kapitel hinweg zählen
+\addtolength{\skip\footins}{1ex plus 2mm} % Abstand zum Text
+\renewcommand{\footnotesep}{1ex} % da nummeriert, Abstand ok
+% rechtsbündig aus likem Rand
+
+\let\Umathcode\XeTeXmathcode \let\Umathchardef\XeTeXmathchardef
+
+%____________ Größen Ende ______________________________
+
+%%%%% Farbboxen für Hinweise ------
+\tcbset{textmarker/.style={%
+        enhanced,
+        parbox=false,boxrule=0mm,boxsep=0mm,arc=0mm,
+        outer arc=0mm,left=6mm,right=3mm,top=7pt,bottom=7pt,
+        toptitle=1mm,bottomtitle=1mm,oversize}}
+
+\newtcolorbox{hintBox}{textmarker,
+    borderline west={6pt}{0pt}{yellow},
+    colback=yellow!10!white}
+
+\newtcolorbox{importantBox}{textmarker,
+    borderline west={6pt}{0pt}{red},
+    colback=red!10!white}
+
+\newtcolorbox{noteBox}{textmarker,
+    borderline west={6pt}{0pt}{green},
+    colback=green!10!white}
+
+\newcommand{\Anmerkung}[1]
+{\begin{hintBox}
+#1
+\end{hintBox}}
+
+\newcommand{\Alarm}[1]
+{\begin{importantBox}
+#1
+\end{importantBox}}
+
+\newcommand{\Allesgut}[1]
+{\begin{noteBox}
+#1
+\end{noteBox}}
+
+
+\newcommand{\on}[1]{{#1}} %deaktiviertes oldstylenums
+\newcommand{\p}{{\npnoaddmissingzero \npdecimalsign{.}}} %p-Wert
+                                %kompakt in zB Kovarianztabellen
+
+%%%%%%%%%      Umgebungen und Kommandos   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%  Boxen
+
+\newtcolorbox{IYI_C}{
+  colback=white,
+  colframe=MidnightBlue,
+  coltext=black,
+  boxsep=5pt,
+  arc=4pt}
+
+\newenvironment{IYI}[1]
+  {
+  \begin{itemize}
+  \renewcommand{\labelitemi}{
+    \raisebox{-.9\height}[0pt][0pt]{
+      {\setkeys{Gin}{width= 3em,keepaspectratio}
+        \hspace*{-3cm}\includegraphics{images/IYI.pdf}}
+    }
+  }
+  \setlength{\fboxsep}{1em}
+  \begin{IYI_C}
+  \item
+  }
+  {
+  \end{IYI_C}
+  \end{itemize}
+  }
+
+\newtcolorbox{QA_C}{
+  colback=white,
+  colframe=orange,
+  coltext=black,
+  boxsep=5pt,
+  arc=4pt}
+
+  \newenvironment{QA}[1]
+  {
+  \begin{itemize}
+  \renewcommand{\labelitemi}{
+    \raisebox{-.9\height}[0pt][0pt]{
+      {\setkeys{Gin}{width=3em,keepaspectratio}
+        \hspace{-2cm}\includegraphics{images/QA.pdf}}
+    }
+  }
+  \setlength{\fboxsep}{1em}
+  \begin{QA_C}
+  \item
+  }
+  {
+  \end{QA_C}
+  \end{itemize}
+  }
+
+%%% ENDE Boxen
+
+%% \PBS für geschützten Backslash
+\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
+\let\PBS=\PreserveBackslash
+
+\renewcommand{\labelitemi}{--}
+
+%%% Bilder einbauen (breitbild = Seitenbreite skalieren; bild zentriert
+\newcommandtwoopt{\Bild}[3][1][0 0 0
+0]{ \begin{center}
+    \includegraphics[width=#1\linewidth,trim = #2, clip]{images/#3}
+  \end{center}}
+%%%% Aufzählungen
+
+\renewcommand{\labelitemi}{\small\textbullet}
+
+\newcommand{\Beschrieb}[1]{\ifthenelse{\isundefined{#1}}{}{
+\begin{minipage}[H]{1.0\linewidth}
+  \begin{multicols}{3}
+ #1
+ \end{multicols}
+\end{minipage}\vspace{5mm}}}
+
+%% für Barrierefreiheit
+\newcommand{\AccTool}[2]{\BeginAccSupp{method=pdfstringdef,unicode,Alt={{#1}}}\pdftooltip{{#2}}{{#1}}\EndAccSupp{}}
+
+%__________________ Umgebungen Ende _____________________________________________
+
+%--------  Tabellenbefehle  ----------------------
+%LaTeX interpretiert Tabulatoren und Zeilenenden für Tabellen
+% & und \\ können eingesetzt werden, wenn nötig
+% bei zB \\\midrule%! muss das Zeilenende auskommentiert sein
+
+\renewcommand{\floatpagefraction}{.7}
+\renewcommand{\textfraction}{.12}
+\renewcommand{\topfraction}{.8}     % vorher: .7
+\renewcommand{\bottomfraction}{.5}  % vorher: .3
+\makeatletter
+\renewcommand{\fps@figure}{htbp}
+\renewcommand{\fps@table}{htbp}
+\makeatother
+
+\setbox0=\hbox{%
+  \begin{tabular}{c}
+ \global\let\CsvNewline\\%
+ \end{tabular}}
+ {\catcode`\^^M=\active%
+  \gdef\CsvObeylines{\catcode`\^^M=\active \let^^M=\CsvNewline}}%
+
+\setcapindent{1em}
+
+\newcommand{\TBZeilenabstand}{\aboverulesep = 0pt \belowrulesep = 0pt}
+
+\newcommand{\NormalZeilenabstand}{\aboverulesep = 0.605mm \belowrulesep = 0.984mm}
+
+
+% \newcommand{\corcmidrule}[1][2pt]{% \corcmidrule[<len>]
+%   \\[\dimexpr-\normalbaselineskip-\belowrulesep-\aboverulesep-#1\relax]%
+% }
+
+% Correct for \cmidrule colour adjustment/vertical skip
+\newcommand{\corcmidrule}[1][2pt]{% \corcmidrule[<len>]
+  \\[\dimexpr-\arraystretch\normalbaselineskip-\belowrulesep-\aboverulesep-#1\relax]%
+}
+
+ \newcommand{\cgrauDurch}{\arrayrulecolor{black!30}\specialrule{.2pt}{0pt}{0pt}\arrayrulecolor{black}}
+ \newcommand{\cgrau}[1]{\arrayrulecolor{black!30} \cmidrule[.8pt](l{3pt}r{2pt}){#1} \corcmidrule[1pt] \arrayrulecolor{black}}
+
+%% variable Verweise
+\renewcommand\reftextfaceafter{gegen\"uberliegend}
+\renewcommand\reftextfacebefore{gegen\"uberliegend}
+\renewcommand\reftextbefore{vorherige Seite}
+\renewcommand\reftextafter{n\"achste Seite}
+\renewcommand\reftextcurrent{}
+\renewcommand\reftextfaraway[1]{Seite~\pageref{#1}}
+
+\makeatletter
+\@addtoreset{figure}{section}
+\@addtoreset{table}{section}
+\makeatother
+
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+
+%\renewcommand{\bminipage}{\begin{minipage}[t]{.9\textwidth}}
+%\renewcommand{\eminipage}{\end{minipage}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    aus Bookdown
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\definecolor{shadecolor}{RGB}{248,248,248}
+% \newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+%\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+% \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+% \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+% \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+% \newcommand{\BuiltInTok}[1]{#1}
+% \newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+% \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+% \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+% \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+% \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+% \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+% \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+% \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+% \newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+% \newcommand{\ExtensionTok}[1]{#1}
+% \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+% \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+% \newcommand{\ImportTok}[1]{#1}
+% \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+% \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+% \newcommand{\NormalTok}[1]{#1}
+% \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+% \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+% \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+% \newcommand{\RegionMarkerTok}[1]{#1}
+% \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+% \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+% \newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+% \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+% \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+% \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% aus bookdown Ende %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\hypersetup {pdflang = de, colorlinks = true, linkcolor =
+  black, urlcolor = black, pdfauthor={Dr. Fretwurst, Benjamin},
+  pdfsubject={Statistik Aufbau}, pdftitle={$title$},
+  pdfkeywords={Statistik, lineares Modell, Regression, Varianzanalyse, Clusteranalyse} lang = {DE} }
+\urlstyle{same}
+
+%\addbibresource{files/PeM.bib}
+%\ExecuteBibliographyOptions{url=true, doi = false}
+
+\usepackage[a4paper, left=30mm, asymmetric, top=30mm,textwidth=15cm,
+textheight=22.5cm]{geometry}
+
+% Headers and footers
+\usepackage{scrlayer-scrpage}
+\pagestyle{scrheadings}
+
+  \clearscrheadfoot
+ \automark[section]{section}
+  \ihead[]{\headmark} %oben links
+  \chead[]{} %oben Mitte
+  \ohead{\pagemark} %oben rechts Logo über AddToShipoutPicture unten
+  \ifoot[]{\footnotesize{$Fussautoren$}} %unten links
+  \cfoot[]{} %unten Mitte
+  \ofoot[]{\footnotesize{$Fusstitel$}} % unten rechts
+  \setheadsepline{.2pt}
+  \setfootsepline{.2pt}
+\addtokomafont{disposition}{\sffamily}
+
+\addtokomafont{disposition}{\sffamily}
+%\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage[labelsep=colon]{caption}
+% \captionsetup[table]{textfont = {sf}, labelfont = {sf}} %bf
+%\renewcaptionname{ngerman}{\tablename}{Tabelle}
+
+%\usepackage{baskervald} % auch nicht schlecht
+\usepackage[]{CrimsonPro} % gut
+%\setmainfont{Century Gothic} %schlimm, aber IaKom und darum schön
+
+%\usepackage[german=swiss]{csquotes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+              %Dokumentstart
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{files/Silbentrennung}
+
+\begin{document}
+
+\begin{titlepage}
+\sffamily
+\setlength\parindent{0pt}
+
+\hfill \includegraphics[width = 6cm]{images/uzh_logo_d_pos.pdf}\par
+
+\vspace{5cm}
+
+
+$if(title)$
+{\bfseries \fontsize{20}{26} \selectfont $title$} \\[1ex]
+$if(subtitle)$
+
+{\fontsize{14}{14} \selectfont $subtitle$} \\[1cm]
+$endif$
+$endif$
+
+$if(Entwurf)$
+\vfill
+{\Large $Entwurf$} \\[1cm]
+$endif$
+
+\vfill
+
+Dr. Benjamin Fretwurst\\
+
+\vfill
+{\large }
+\raggedright
+
+
+
+$date$ \\[.5cm]
+%\textbf{[\today] \\[1.5cm]}
+\pagenumbering{Roman}
+\clearpage
+
+\vspace*{4cm}
+
+Quellenangabe\\[.5cm]
+
+$Quellenangabe$
+
+%\end{tabbing}
+\end{titlepage}
+
+
+\makeatletter
+\AddToShipoutPicture{\setlength{\unitlength}{1cm}\put(24.32,18.65){{\includegraphics[height=.6cm]{images/uzh_logo_d_pos.pdf}}}}
+\makeatletter
+
+%Überschriften unterdrücken durch IV und TV (wegen multicolumn)
+\renewcommand{\listoftables}{\@starttoc{lot}}
+\renewcommand{\tableofcontents}{\@starttoc{toc}}
+\renewcommand{\listoffigures}{\@starttoc{lof}}
+
+%Mehr Platz für breite Tabellennummern
+\renewcommand{\l@table}{\@dottedtocline{1}{1em}{3em}}
+\makeatother
+
+\clearpage
+\section*{Inhalt}
+\label{sec:inhalt}
+\pdfbookmark[1]{\contentsname}{toc}
+%  \begin{multicols}{2}
+
+\tableofcontents
+%  \end{multicols}
+
+\clearpage
+
+\section*{Tabellen- und Abbildungsverzeichnis}
+
+\pdfbookmark[1]{Tabellen/Abbildungen}{lot}
+
+\section*{Abbildungsverzeichnis}
+\label{sec:Abbildungsverzeichnis}
+
+%\begin{multicols}{2}
+\listoffigures
+%\end{multicols}
+
+\section*{Tabellenverzeichnis}
+\label{sec:tabellenverzeichnis}
+
+%\begin{multicols}{2}
+\listoftables
+%\end{multicols}
+
+\cleardoublepage
+
+\pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+             %Body
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+$body$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+             %Anhang
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}

@@ -1,0 +1,115 @@
+project:
+  type: book
+  output-dir: _site
+  resources: 
+    - files/files/Logistische+Regression_Zerback_Wirz_OA.pdf
+
+lang: de-CH
+
+Version: "Version 0.01"
+
+date-format: iso
+date: today
+
+book:
+  title: Einführung in die Kommunikationswissenschaft und Medienforschung -- EKMF
+  subtitle: Begleittext zum Modul (254-001a)
+  author:
+  - given-names: Stefanie
+    surname: Hangartner
+
+  chapters:
+    - index.qmd
+    - 1_Kommunikationsmodelle.qmd
+    
+
+  downloads: [pdf]
+  output-file: "EKMF"
+
+execute:
+  cache: false
+
+# bibliography: files/Statistik_Aufbau.bib
+# csl: nature.csl
+# cite-method: biblatex
+# suppress-bibliography: true
+
+format:
+  html:
+    theme: 
+      - cosmo 
+      - callout_tweet.scss
+      - files/www/custom.scss
+    toc: true
+    toc-title: "Seiteninhalt"
+    toc-location: right
+    max-width: 5500px
+    lang: de-CH
+    fig-width: 7
+    fig-height: 5
+    fig-show: "hold"
+    css:
+      - files/www/style.css
+      - files/www/webex.css
+      - files/www/index.css
+    includes:
+      in_header: files/header.html
+      text: |
+         \usepackage{fvextra}
+         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+         \DefineVerbatimEnvironment{OutputCode}{Verbatim}{breaklines,commandchars=\\\{\}}
+         \makeatletter
+         \newcommand{\verbatimfont}[1]{\renewcommand{\verbatim@font}{\ttfamily#1}}
+         \makeatother
+    include-after-body:
+      - files/www/webex.js
+      - files/www/hypothis.js
+    filters: [files/pandoc-quotes.lua]
+
+  pdf:
+    documentclass: scrreprt
+    classoption: a4paper, twoside
+    geometry:
+      - top=30mm
+      - left=20mm
+      - lmargin=30mm,
+      - textwidth = 15.5cm,
+      - textheight = 22.5cm
+    fontenc: T1
+    template: files/LaTeX/quarto_template.tex
+    number-sections: TRUE
+    csquotes: true
+    keep-tex: true
+    fontsize: 10pt
+    include-in-header: 
+      text: |
+        \usepackage{scrlayer-scrpage}
+        \automark[section]{section}
+        \cfoot[]{EKMF} 
+        \ifoot[]{Fretwurst}
+        \ofoot[]{\pagemark}
+        \usepackage{hyperref}
+        \usepackage[ngerman]{varioref}
+        \usepackage[ngerman]{cleveref}
+        \usepackage{eso-pic}
+        \usepackage[german=swiss]{csquotes}
+        \usepackage{pdfpages}
+        \usepackage[skip = 12pt, font=large,labelfont={large}]{caption}
+        \usepackage{float}
+        \usepackage{makecell}
+
+callout-appearance: default
+callout-icon: false
+
+prefer-html: true
+
+comments:
+  giscus: 
+    repo: fretwurst/EKMF
+    reactions-enabled: true
+    loading: lazy
+    input-position: "bottom"
+    theme: "light"
+
+editor:
+  render-on-save: true

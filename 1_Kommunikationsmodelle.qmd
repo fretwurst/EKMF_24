@@ -1,0 +1,83 @@
+# Einführung
+
+```{r}
+#| echo: false
+source("_common.R")
+```
+
+## Der Vorlesungsmitschnitt {.unnumbered .unlisted}
+
+::: {style="max-width:100%"}
+::: {style="position:relative;padding-bottom:66.118421052632%"}
+<iframe id="kaltura_player" src="https://api.cast.switch.ch/p/106/sp/10600/embedIframeJs/uiconf_id/23448425/partner_id/106?iframeembed=true&amp;playerId=kaltura_player&amp;entry_id=0_3swfu0vz&amp;flashvars[streamerType]=auto&amp;flashvars[localizationCode]=de&amp;flashvars[leadWithHTML5]=true&amp;flashvars[sideBarContainer.plugin]=true&amp;flashvars[sideBarContainer.position]=left&amp;flashvars[sideBarContainer.clickToClose]=true&amp;flashvars[chapters.plugin]=true&amp;flashvars[chapters.layout]=vertical&amp;flashvars[chapters.thumbnailRotator]=false&amp;flashvars[streamSelector.plugin]=true&amp;flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&amp;flashvars[dualScreen.plugin]=true&amp;flashvars[hotspots.plugin]=1&amp;flashvars[mediaProxy.mediaPlayFrom]=508&amp;flashvars[mediaProxy.mediaPlayTo]=8092&amp;flashvars[Kaltura.addCrossoriginToIframe]=true&amp;&amp;wid=0_tpes5neo" width="100%" height="padding-top=56.25" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="Statistik und Datenanalyse: Aufbau (254-015a)" style="position:absolute;top:0;left:0;width:100%;height:100%">
+
+</iframe>
+:::
+:::
+
+## Einleitung
+
+Absätze werden einfach mit einer Leerzeile getrennt. Hier finden sich weitere Basiscs: https://quarto.org/docs/authoring/markdown-basics.html
+
+Am Anfang war ...
+
+Im Folgenden wird ein Video eingebettet:
+
+::: {.content-visible when-format="pdf"}
+**Im Tutorial schrittweise und graphisch erläutert:**
+
+<https://www.youtube.com/embed/jXH1ly3Q87U>
+:::
+
+::: {.content-visible when-format="html"}
+**Im Tutorial schrittweise und graphisch erläutert:**
+
+{{< video https://www.youtube.com/embed/jXH1ly3Q87U >}}
+:::
+
+:::
+
+### Aufzählungen sind einfach
+
+-   das wird eine einfach Aufzählung mit Punkten
+    -   eingerückt wird eingerückt
+    -   wird eingerückt
+-   oder so
+
+Es geht auch nummeriert:
+
+1.  Könnte in der Auswahlgesamtheit der wahre Wert auch 0 sein, oder ein anderes Vorzeichen haben?
+2.  Die Nullhypothese ist eine statistische Hypothese gegen Falschentscheidungen aufgrund von Zufallsziehungen.
+3.  Nullhypothesen werden anhand von bekannten Verteilungen getestet.
+
+### Grafiken können einfach in den Text
+
+![Hypothesentesten](images/TestStat1.jpg){#fig-Hypothesen .lightbox width="80%"}
+
+### Formeln gehen auch
+
+Die z-Transformation (auch "Standardisierung") einer Variable bedeutet, dass man sie so "verschiebt", dass sie um den Mittelwert 0 streut und zwar mit einer Standardabweichung von 1. Dazu wird von jedem Wert $x_i$ der Mittelwert abgezogen und diese Differenz durch die Standardabweichung geteilt:
+
+```{=tex}
+\begin{align}    
+  z_i= & \frac{x_i-\bar{x}}{s} \label{eq:z-Transformation} 
+\end{align}
+```
+
+Ein kleiner Einschub:
+
+------------------------------------------------------------------------
+
+Bla, kleiner Exkurs
+
+------------------------------------------------------------------------
+
+::: {.callout-important collapse="false"}
+## Q&A: Was sind eigentlich wissenschaftliche Modelle?
+
+Modelle sind ...
+:::
+
+::: {.content-visible when-format="html"}
+{{< include "LEF/LEF1.qmd" >}} {{< include "LEF/quiz_script.qmd" >}}
+:::

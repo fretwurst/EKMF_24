@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.489">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Faktorenanalyse Uebung3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Ubung3_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Ubung3_files/libs/quarto-html/quarto.js"></script>
+<script src="Ubung3_files/libs/quarto-html/popper.min.js"></script>
+<script src="Ubung3_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Ubung3_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Ubung3_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Ubung3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Ubung3_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Ubung3_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Ubung3_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Faktorenanalyse Uebung3</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="daten-laden" class="level2">
+<h2 class="anchored" data-anchor-id="daten-laden">3.1 Daten laden</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wenn wir die Dateien einmal geladen und aufbereitet haben (mit der Extradatei "Aufbereitung.qmd"), dann ist es besser, nicht immer wieder neu die Rohdaten zu laden, sondern die Aufbereiteten. </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Prüfe, ob es in dem Ordner in der die Uebung_1_ab.qmd gespeichert ist, einen Unterordner "files" gibt und, wenn nicht, dann lege ihn an.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">dir.exists</span>(<span class="st">"data"</span>)){<span class="fu">return</span>(<span class="fu">invisible</span>(<span class="cn">NULL</span>))} <span class="cf">else</span> {<span class="fu">dir.create</span>(<span class="st">"data"</span>)}</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(<span class="st">"tidyverse"</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://stat.ikmz.uzh.ch/Aufbau/Folien/Sitzung_04/data/Stat_Aufbau_Befragung.RDS"</span>, <span class="st">"data/Stat_Aufbau_Befragung.RDS"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>DATEN <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/Stat_Aufbau_Befragung.RDS"</span>)  <span class="sc">|&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">zap_formats</span>()</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># DATEN  |&gt;  sjlabelled::get_label()</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>DATEN <span class="sc">|&gt;</span> </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(<span class="st">"data/Stat_Aufbau_Befragung.RDS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="psych-laden" class="level2">
+<h2 class="anchored" data-anchor-id="psych-laden">«psych» laden</h2>
+<p>Das Paket psych brauchen wir im Folgenden mehrfach. Es kann für die Sitzung mit Hilfe von <code>library()</code>-funktion geladen werden. Danach braucht man eigentlich nicht mehr immer <code>psych::</code> vor jede Funktion schreiben, aber ich empfehle es und der Styleguide von R-Studio auch. Dann weiss man 1. immer, welches Paket gerade verwendet wird bei einer Funktion (für andere ist das auch deutlich leichter lesbar). 2. kann man sicher sein, dass es keine Konflikte gibt, weil zB mehrere Pakete die Funktion <code>filter</code> verwenden und 3. braucht man eben nicht mehr irgendwo am Anfang die ganzen Pakete mit <code>library</code> laden. Also, den Aufruf kann man machen, muss aber nicht.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'psych'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:ggplot2':
+
+    %+%, alpha</code></pre>
+</div>
+</div>
+<p>Da haben wir es! Auch <code>psych</code> überschreibt Funktionen (mask) anderer Pakete. Das gilt vor allem für das Diagrammpaket <code>ggplot</code>.</p>
+</section>
+<section id="orientierung-in-den-daten" class="level2">
+<h2 class="anchored" data-anchor-id="orientierung-in-den-daten">Orientierung in den Daten</h2>
+<p>Schauen Sie in den Fragebogen, welche Variablen zur RAQ-Skala gehören: <a href="https://stat.ikmz.uzh.ch/Aufbau/files/FB_STATA.pdf">FB_STATA.pdf (uzh.ch)</a></p>
+<p>Dann rufen Sie immer vor einer höheren Analyse die Häufigkeitstabellen einmal auf und schauen sich die Variablen an. Was haben sie für einen Range? Gibt es Werte in den Variablen, die eigentlich nicht sein können (zB sind befragte teils über 2000 Jahre als)? Wie viele fehlende Werte (NA) haben die Variablen? Gibt es zB negative Variablen (-9) die als Wert mitverarbeitet werden, aber eigentlich für einen fehlenden Wert (Missing stehen)? Also:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>DATEN <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  sjmisc<span class="sc">::</span><span class="fu">frq</span>(R101_01<span class="sc">:</span>R101_24)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>RAQ: Statistik bringt mich zum Weinen. (R101_01) &lt;integer&gt; 
+# total N=167 valid N=167 mean=2.95 sd=1.34
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 29 | 17.37 |   17.37 |  17.37
+    2 |                           2 | 42 | 25.15 |   25.15 |  42.51
+    3 |                           3 | 30 | 17.96 |   17.96 |  60.48
+    4 |                           4 | 41 | 24.55 |   24.55 |  85.03
+    5 |   5 trifft voll und ganz zu | 25 | 14.97 |   14.97 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  0 |  0.00 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Meine Freunde werden denken, ich sei dumm, weil ich nicht mit R umgehen kann. (R101_02) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.83 sd=1.09
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 86 | 51.50 |   51.81 |  51.81
+    2 |                           2 | 45 | 26.95 |   27.11 |  78.92
+    3 |                           3 | 17 | 10.18 |   10.24 |  89.16
+    4 |                           4 | 13 |  7.78 |    7.83 |  96.99
+    5 |   5 trifft voll und ganz zu |  5 |  2.99 |    3.01 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Standardabweichungen begeistern mich. (R101_03) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.94 sd=0.93
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 63 | 37.72 |   37.95 |  37.95
+    2 |                           2 | 62 | 37.13 |   37.35 |  75.30
+    3 |                           3 | 31 | 18.56 |   18.67 |  93.98
+    4 |                           4 |  8 |  4.79 |    4.82 |  98.80
+    5 |   5 trifft voll und ganz zu |  2 |  1.20 |    1.20 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Ich träume davon, dass Pearson mich mit Korrelationskoeffizienten angreift. (R101_04) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.83 sd=1.27
+
+Value |                       Label |   N | Raw % | Valid % | Cum. %
+--------------------------------------------------------------------
+   -9 |           nicht beantwortet |   0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 102 | 61.08 |   61.45 |  61.45
+    2 |                           2 |  27 | 16.17 |   16.27 |  77.71
+    3 |                           3 |  14 |  8.38 |    8.43 |  86.14
+    4 |                           4 |  10 |  5.99 |    6.02 |  92.17
+    5 |   5 trifft voll und ganz zu |  13 |  7.78 |    7.83 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |   1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Ich verstehe Statistik nicht. (R101_05) &lt;integer&gt; 
+# total N=167 valid N=166 mean=2.81 sd=1.14
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 21 | 12.57 |   12.65 |  12.65
+    2 |                           2 | 48 | 28.74 |   28.92 |  41.57
+    3 |                           3 | 52 | 31.14 |   31.33 |  72.89
+    4 |                           4 | 31 | 18.56 |   18.67 |  91.57
+    5 |   5 trifft voll und ganz zu | 14 |  8.38 |    8.43 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Ich habe wenig Erfahrung mit Computern. (R101_06) &lt;integer&gt; 
+# total N=167 valid N=166 mean=2.63 sd=1.16
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 33 | 19.76 |   19.88 |  19.88
+    2 |                           2 | 47 | 28.14 |   28.31 |  48.19
+    3 |                           3 | 41 | 24.55 |   24.70 |  72.89
+    4 |                           4 | 38 | 22.75 |   22.89 |  95.78
+    5 |   5 trifft voll und ganz zu |  7 |  4.19 |    4.22 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Alle Computer hassen mich. (R101_07) &lt;integer&gt; 
+# total N=167 valid N=167 mean=1.94 sd=1.20
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 87 | 52.10 |   52.10 |  52.10
+    2 |                           2 | 31 | 18.56 |   18.56 |  70.66
+    3 |                           3 | 31 | 18.56 |   18.56 |  89.22
+    4 |                           4 |  8 |  4.79 |    4.79 |  94.01
+    5 |   5 trifft voll und ganz zu | 10 |  5.99 |    5.99 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  0 |  0.00 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Ich war noch nie gut in Mathe. (R101_08) &lt;integer&gt; 
+# total N=167 valid N=166 mean=2.66 sd=1.22
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 32 | 19.16 |   19.28 |  19.28
+    2 |                           2 | 51 | 30.54 |   30.72 |  50.00
+    3 |                           3 | 40 | 23.95 |   24.10 |  74.10
+    4 |                           4 | 28 | 16.77 |   16.87 |  90.96
+    5 |   5 trifft voll und ganz zu | 15 |  8.98 |    9.04 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Meine Freunde sind besser in Statistik als ich. (R101_09) &lt;integer&gt; 
+# total N=167 valid N=166 mean=2.95 sd=1.07
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 12 |  7.19 |    7.23 |   7.23
+    2 |                           2 | 46 | 27.54 |   27.71 |  34.94
+    3 |                           3 | 62 | 37.13 |   37.35 |  72.29
+    4 |                           4 | 30 | 17.96 |   18.07 |  90.36
+    5 |   5 trifft voll und ganz zu | 16 |  9.58 |    9.64 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Computer sind nur zum Spielen nützlich. (R101_10) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.65 sd=0.98
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 98 | 58.68 |   59.04 |  59.04
+    2 |                           2 | 43 | 25.75 |   25.90 |  84.94
+    3 |                           3 | 16 |  9.58 |    9.64 |  94.58
+    4 |                           4 |  3 |  1.80 |    1.81 |  96.39
+    5 |   5 trifft voll und ganz zu |  6 |  3.59 |    3.61 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Ich war in der Schule schlecht in Mathematik. (R101_11) &lt;integer&gt; 
+# total N=167 valid N=167 mean=2.84 sd=1.28
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 32 | 19.16 |   19.16 |  19.16
+    2 |                           2 | 36 | 21.56 |   21.56 |  40.72
+    3 |                           3 | 45 | 26.95 |   26.95 |  67.66
+    4 |                           4 | 35 | 20.96 |   20.96 |  88.62
+    5 |   5 trifft voll und ganz zu | 19 | 11.38 |   11.38 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  0 |  0.00 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Leute versuchen dir zu sagen, dass R die Statistik leichter verständlich macht, aber das stimmt nicht. (R101_12) &lt;integer&gt; 
+# total N=167 valid N=166 mean=3.00 sd=1.25
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 24 | 14.37 |   14.46 |  14.46
+    2 |                           2 | 35 | 20.96 |   21.08 |  35.54
+    3 |                           3 | 46 | 27.54 |   27.71 |  63.25
+    4 |                           4 | 39 | 23.35 |   23.49 |  86.75
+    5 |   5 trifft voll und ganz zu | 22 | 13.17 |   13.25 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Ich mache mir Sorgen, dass ich wegen meiner Inkompetenz mit Computern irreparable Schäden verursachen werde. (R101_13) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.77 sd=1.12
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 95 | 56.89 |   57.23 |  57.23
+    2 |                           2 | 38 | 22.75 |   22.89 |  80.12
+    3 |                           3 | 16 |  9.58 |    9.64 |  89.76
+    4 |                           4 | 10 |  5.99 |    6.02 |  95.78
+    5 |   5 trifft voll und ganz zu |  7 |  4.19 |    4.22 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Computer haben ihren eigenen Willen und gehen absichtlich immer dann kaputt, wenn ich sie benutze. (R101_14) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.56 sd=0.96
+
+Value |                       Label |   N | Raw % | Valid % | Cum. %
+--------------------------------------------------------------------
+   -9 |           nicht beantwortet |   0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 110 | 65.87 |   66.27 |  66.27
+    2 |                           2 |  33 | 19.76 |   19.88 |  86.14
+    3 |                           3 |  14 |  8.38 |    8.43 |  94.58
+    4 |                           4 |   4 |  2.40 |    2.41 |  96.99
+    5 |   5 trifft voll und ganz zu |   5 |  2.99 |    3.01 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |   1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Computer sind darauf aus, mich zu überlisten. (R101_15) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.52 sd=0.94
+
+Value |                       Label |   N | Raw % | Valid % | Cum. %
+--------------------------------------------------------------------
+   -9 |           nicht beantwortet |   0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 112 | 67.07 |   67.47 |  67.47
+    2 |                           2 |  36 | 21.56 |   21.69 |  89.16
+    3 |                           3 |  10 |  5.99 |    6.02 |  95.18
+    4 |                           4 |   2 |  1.20 |    1.20 |  96.39
+    5 |   5 trifft voll und ganz zu |   6 |  3.59 |    3.61 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |   1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Ich weine offen, wenn von zentraler Tendenz die Rede ist. (R101_16) &lt;integer&gt; 
+# total N=167 valid N=166 mean=2.02 sd=1.29
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 84 | 50.30 |   50.60 |  50.60
+    2 |                           2 | 33 | 19.76 |   19.88 |  70.48
+    3 |                           3 | 22 | 13.17 |   13.25 |  83.73
+    4 |                           4 | 15 |  8.98 |    9.04 |  92.77
+    5 |   5 trifft voll und ganz zu | 12 |  7.19 |    7.23 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Ich falle in ein Koma, wenn ich eine Gleichung sehe. (R101_17) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.86 sd=1.16
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 88 | 52.69 |   53.01 |  53.01
+    2 |                           2 | 41 | 24.55 |   24.70 |  77.71
+    3 |                           3 | 19 | 11.38 |   11.45 |  89.16
+    4 |                           4 |  9 |  5.39 |    5.42 |  94.58
+    5 |   5 trifft voll und ganz zu |  9 |  5.39 |    5.42 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: R stürzt immer ab, wenn ich versuche, es zu benutzen. (R101_18) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.74 sd=1.07
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 94 | 56.29 |   56.63 |  56.63
+    2 |                           2 | 42 | 25.15 |   25.30 |  81.93
+    3 |                           3 | 15 |  8.98 |    9.04 |  90.96
+    4 |                           4 |  9 |  5.39 |    5.42 |  96.39
+    5 |   5 trifft voll und ganz zu |  6 |  3.59 |    3.61 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Alle schauen mich an, wenn ich R benutze. (R101_19) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.52 sd=0.98
+
+Value |                       Label |   N | Raw % | Valid % | Cum. %
+--------------------------------------------------------------------
+   -9 |           nicht beantwortet |   0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 117 | 70.06 |   70.48 |  70.48
+    2 |                           2 |  26 | 15.57 |   15.66 |  86.14
+    3 |                           3 |  13 |  7.78 |    7.83 |  93.98
+    4 |                           4 |   5 |  2.99 |    3.01 |  96.99
+    5 |   5 trifft voll und ganz zu |   5 |  2.99 |    3.01 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |   1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Ich kann nicht schlafen, weil ich an Signifikanzen denke. (R101_20) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.87 sd=1.26
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 97 | 58.08 |   58.43 |  58.43
+    2 |                           2 | 29 | 17.37 |   17.47 |  75.90
+    3 |                           3 | 16 |  9.58 |    9.64 |  85.54
+    4 |                           4 | 13 |  7.78 |    7.83 |  93.37
+    5 |   5 trifft voll und ganz zu | 11 |  6.59 |    6.63 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Ich wache unter meiner Bettdecke auf und denke, dass ich unter einer Normalverteilung gefangen bin. (R101_21) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.93 sd=1.41
+
+Value |                       Label |   N | Raw % | Valid % | Cum. %
+--------------------------------------------------------------------
+   -9 |           nicht beantwortet |   0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 104 | 62.28 |   62.65 |  62.65
+    2 |                           2 |  16 |  9.58 |    9.64 |  72.29
+    3 |                           3 |  18 | 10.78 |   10.84 |  83.13
+    4 |                           4 |   9 |  5.39 |    5.42 |  88.55
+    5 |   5 trifft voll und ganz zu |  19 | 11.38 |   11.45 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |   1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Meine Freunde sind besser in R als ich. (R101_22) &lt;integer&gt; 
+# total N=167 valid N=166 mean=2.86 sd=1.15
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 19 | 11.38 |   11.45 |  11.45
+    2 |                           2 | 48 | 28.74 |   28.92 |  40.36
+    3 |                           3 | 54 | 32.34 |   32.53 |  72.89
+    4 |                           4 | 28 | 16.77 |   16.87 |  89.76
+    5 |   5 trifft voll und ganz zu | 17 | 10.18 |   10.24 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Wenn ich gut in Statistik bin, werden die Leute denken, ich sei ein Streber. (R101_23) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.92 sd=1.28
+
+Value |                       Label |  N | Raw % | Valid % | Cum. %
+-------------------------------------------------------------------
+   -9 |           nicht beantwortet |  0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 96 | 57.49 |   57.83 |  57.83
+    2 |                           2 | 25 | 14.97 |   15.06 |  72.89
+    3 |                           3 | 18 | 10.78 |   10.84 |  83.73
+    4 |                           4 | 17 | 10.18 |   10.24 |  93.98
+    5 |   5 trifft voll und ganz zu | 10 |  5.99 |    6.02 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |  1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;
+
+RAQ: Ich mag Statistik, würde das aber nie vor meinen Freunden zugeben. (R101_24) &lt;integer&gt; 
+# total N=167 valid N=166 mean=1.53 sd=0.90
+
+Value |                       Label |   N | Raw % | Valid % | Cum. %
+--------------------------------------------------------------------
+   -9 |           nicht beantwortet |   0 |  0.00 |    0.00 |   0.00
+    1 | 1 trifft überhaupt nicht zu | 111 | 66.47 |   66.87 |  66.87
+    2 |                           2 |  32 | 19.16 |   19.28 |  86.14
+    3 |                           3 |  16 |  9.58 |    9.64 |  95.78
+    4 |                           4 |   4 |  2.40 |    2.41 |  98.19
+    5 |   5 trifft voll und ganz zu |   3 |  1.80 |    1.81 | 100.00
+ &lt;NA&gt; |                        &lt;NA&gt; |   1 |  0.60 |    &lt;NA&gt; |   &lt;NA&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="korrelationstabelle" class="level2">
+<h2 class="anchored" data-anchor-id="korrelationstabelle">Korrelationstabelle</h2>
+<p>Erste Versuche, die nicht funktionieren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># geht nicht:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>DATEN <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(R101_01<span class="sc">:</span>R101_24)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># geht auch nicht:</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">round</span>(<span class="fu">cor</span>(DATEN<span class="sc">$</span>R101_01<span class="sc">:</span>DATEN<span class="sc">$</span>R101_24), <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>So geht es:</p>
+<p>Ich lege ein neues Datenset «items» an, das gebildet (&lt;-) wird indem<br>
+1. die Daten genommen werden |&gt; 2. die Variablen ausgewählt werden, die miteinander korreliert werden sollen |&gt; 3. Fehlende Werte (NA) ausgelassen werden (omit) mit der Funktion na.omit()</p>
+<p>Dann</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: geht!</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># erstmal die items extrahieren</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>items <span class="ot">&lt;-</span> DATEN <span class="sc">|&gt;</span> </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(R101_01<span class="sc">:</span>R101_24) <span class="sc">|&gt;</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="co"># sorgt dafür, dass keine NAs mehr in den Daten sind</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># jetzt funktioniert die Vorlage:</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(items), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        R101_01 R101_02 R101_03 R101_04 R101_05 R101_06 R101_07 R101_08 R101_09
+R101_01    1.00    0.36   -0.25    0.13    0.58    0.30    0.37    0.35    0.40
+R101_02    0.36    1.00    0.02    0.19    0.39    0.38    0.37    0.15    0.22
+R101_03   -0.25    0.02    1.00    0.11   -0.23   -0.01    0.00   -0.21   -0.14
+R101_04    0.13    0.19    0.11    1.00    0.20   -0.22    0.11    0.04    0.27
+R101_05    0.58    0.39   -0.23    0.20    1.00    0.39    0.37    0.40    0.42
+R101_06    0.30    0.38   -0.01   -0.22    0.39    1.00    0.44    0.17    0.07
+R101_07    0.37    0.37    0.00    0.11    0.37    0.44    1.00    0.17    0.15
+R101_08    0.35    0.15   -0.21    0.04    0.40    0.17    0.17    1.00    0.44
+R101_09    0.40    0.22   -0.14    0.27    0.42    0.07    0.15    0.44    1.00
+R101_10    0.20    0.18    0.00    0.17    0.20    0.16    0.36   -0.03    0.17
+R101_11    0.20    0.04   -0.12    0.04    0.25    0.01    0.03    0.76    0.39
+R101_12    0.38    0.33   -0.14    0.04    0.45    0.35    0.51    0.28    0.17
+R101_13    0.29    0.52    0.07    0.13    0.36    0.41    0.57    0.16    0.17
+R101_14    0.19    0.41    0.02    0.15    0.21    0.31    0.51    0.05    0.07
+R101_15    0.21    0.46    0.08    0.12    0.18    0.31    0.53    0.06    0.08
+R101_16    0.49    0.20   -0.05    0.28    0.41    0.19    0.49    0.23    0.21
+R101_17    0.24    0.12   -0.19    0.27    0.30    0.12    0.33    0.26    0.16
+R101_18    0.32    0.24    0.02    0.07    0.31    0.28    0.46    0.04    0.08
+R101_19    0.07    0.11    0.12    0.28    0.14    0.13    0.24    0.01    0.02
+R101_20    0.28    0.32    0.03    0.45    0.40    0.17    0.32    0.13    0.18
+R101_21    0.18    0.19    0.03    0.56    0.18    0.02    0.30    0.08    0.07
+R101_22    0.40    0.24   -0.21    0.17    0.39    0.19    0.15    0.35    0.67
+R101_23    0.01    0.06    0.03    0.09   -0.07   -0.12    0.07   -0.25   -0.03
+R101_24   -0.17    0.05    0.31    0.19   -0.12   -0.06    0.10   -0.22   -0.13
+        R101_10 R101_11 R101_12 R101_13 R101_14 R101_15 R101_16 R101_17 R101_18
+R101_01    0.20    0.20    0.38    0.29    0.19    0.21    0.49    0.24    0.32
+R101_02    0.18    0.04    0.33    0.52    0.41    0.46    0.20    0.12    0.24
+R101_03    0.00   -0.12   -0.14    0.07    0.02    0.08   -0.05   -0.19    0.02
+R101_04    0.17    0.04    0.04    0.13    0.15    0.12    0.28    0.27    0.07
+R101_05    0.20    0.25    0.45    0.36    0.21    0.18    0.41    0.30    0.31
+R101_06    0.16    0.01    0.35    0.41    0.31    0.31    0.19    0.12    0.28
+R101_07    0.36    0.03    0.51    0.57    0.51    0.53    0.49    0.33    0.46
+R101_08   -0.03    0.76    0.28    0.16    0.05    0.06    0.23    0.26    0.04
+R101_09    0.17    0.39    0.17    0.17    0.07    0.08    0.21    0.16    0.08
+R101_10    1.00   -0.09    0.21    0.31    0.32    0.33    0.18    0.07    0.03
+R101_11   -0.09    1.00    0.19    0.08   -0.03   -0.09    0.11    0.23    0.08
+R101_12    0.21    0.19    1.00    0.42    0.23    0.28    0.33    0.22    0.28
+R101_13    0.31    0.08    0.42    1.00    0.50    0.58    0.35    0.29    0.37
+R101_14    0.32   -0.03    0.23    0.50    1.00    0.71    0.30    0.24    0.35
+R101_15    0.33   -0.09    0.28    0.58    0.71    1.00    0.30    0.31    0.39
+R101_16    0.18    0.11    0.33    0.35    0.30    0.30    1.00    0.54    0.22
+R101_17    0.07    0.23    0.22    0.29    0.24    0.31    0.54    1.00    0.34
+R101_18    0.03    0.08    0.28    0.37    0.35    0.39    0.22    0.34    1.00
+R101_19    0.05    0.04    0.09    0.36    0.17    0.31    0.22    0.31    0.41
+R101_20    0.20    0.18    0.19    0.35    0.36    0.29    0.42    0.44    0.37
+R101_21    0.25    0.10    0.16    0.28    0.34    0.31    0.32    0.40    0.38
+R101_22    0.26    0.29    0.26    0.15    0.08    0.09    0.21    0.18    0.16
+R101_23    0.12   -0.23   -0.12    0.15    0.25    0.21    0.04    0.11    0.12
+R101_24    0.08   -0.23   -0.16    0.13    0.20    0.25    0.04    0.13    0.10
+        R101_19 R101_20 R101_21 R101_22 R101_23 R101_24
+R101_01    0.07    0.28    0.18    0.40    0.01   -0.17
+R101_02    0.11    0.32    0.19    0.24    0.06    0.05
+R101_03    0.12    0.03    0.03   -0.21    0.03    0.31
+R101_04    0.28    0.45    0.56    0.17    0.09    0.19
+R101_05    0.14    0.40    0.18    0.39   -0.07   -0.12
+R101_06    0.13    0.17    0.02    0.19   -0.12   -0.06
+R101_07    0.24    0.32    0.30    0.15    0.07    0.10
+R101_08    0.01    0.13    0.08    0.35   -0.25   -0.22
+R101_09    0.02    0.18    0.07    0.67   -0.03   -0.13
+R101_10    0.05    0.20    0.25    0.26    0.12    0.08
+R101_11    0.04    0.18    0.10    0.29   -0.23   -0.23
+R101_12    0.09    0.19    0.16    0.26   -0.12   -0.16
+R101_13    0.36    0.35    0.28    0.15    0.15    0.13
+R101_14    0.17    0.36    0.34    0.08    0.25    0.20
+R101_15    0.31    0.29    0.31    0.09    0.21    0.25
+R101_16    0.22    0.42    0.32    0.21    0.04    0.04
+R101_17    0.31    0.44    0.40    0.18    0.11    0.13
+R101_18    0.41    0.37    0.38    0.16    0.12    0.10
+R101_19    1.00    0.42    0.43    0.14    0.19    0.19
+R101_20    0.42    1.00    0.64    0.16    0.11    0.23
+R101_21    0.43    0.64    1.00    0.15    0.15    0.22
+R101_22    0.14    0.16    0.15    1.00    0.08   -0.11
+R101_23    0.19    0.11    0.15    0.08    1.00    0.45
+R101_24    0.19    0.23    0.22   -0.11    0.45    1.00</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Schöner ist aber mit Pipes:</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>items <span class="sc">|&gt;</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        R101_01 R101_02 R101_03 R101_04 R101_05 R101_06 R101_07 R101_08 R101_09
+R101_01    1.00    0.36   -0.25    0.13    0.58    0.30    0.37    0.35    0.40
+R101_02    0.36    1.00    0.02    0.19    0.39    0.38    0.37    0.15    0.22
+R101_03   -0.25    0.02    1.00    0.11   -0.23   -0.01    0.00   -0.21   -0.14
+R101_04    0.13    0.19    0.11    1.00    0.20   -0.22    0.11    0.04    0.27
+R101_05    0.58    0.39   -0.23    0.20    1.00    0.39    0.37    0.40    0.42
+R101_06    0.30    0.38   -0.01   -0.22    0.39    1.00    0.44    0.17    0.07
+R101_07    0.37    0.37    0.00    0.11    0.37    0.44    1.00    0.17    0.15
+R101_08    0.35    0.15   -0.21    0.04    0.40    0.17    0.17    1.00    0.44
+R101_09    0.40    0.22   -0.14    0.27    0.42    0.07    0.15    0.44    1.00
+R101_10    0.20    0.18    0.00    0.17    0.20    0.16    0.36   -0.03    0.17
+R101_11    0.20    0.04   -0.12    0.04    0.25    0.01    0.03    0.76    0.39
+R101_12    0.38    0.33   -0.14    0.04    0.45    0.35    0.51    0.28    0.17
+R101_13    0.29    0.52    0.07    0.13    0.36    0.41    0.57    0.16    0.17
+R101_14    0.19    0.41    0.02    0.15    0.21    0.31    0.51    0.05    0.07
+R101_15    0.21    0.46    0.08    0.12    0.18    0.31    0.53    0.06    0.08
+R101_16    0.49    0.20   -0.05    0.28    0.41    0.19    0.49    0.23    0.21
+R101_17    0.24    0.12   -0.19    0.27    0.30    0.12    0.33    0.26    0.16
+R101_18    0.32    0.24    0.02    0.07    0.31    0.28    0.46    0.04    0.08
+R101_19    0.07    0.11    0.12    0.28    0.14    0.13    0.24    0.01    0.02
+R101_20    0.28    0.32    0.03    0.45    0.40    0.17    0.32    0.13    0.18
+R101_21    0.18    0.19    0.03    0.56    0.18    0.02    0.30    0.08    0.07
+R101_22    0.40    0.24   -0.21    0.17    0.39    0.19    0.15    0.35    0.67
+R101_23    0.01    0.06    0.03    0.09   -0.07   -0.12    0.07   -0.25   -0.03
+R101_24   -0.17    0.05    0.31    0.19   -0.12   -0.06    0.10   -0.22   -0.13
+        R101_10 R101_11 R101_12 R101_13 R101_14 R101_15 R101_16 R101_17 R101_18
+R101_01    0.20    0.20    0.38    0.29    0.19    0.21    0.49    0.24    0.32
+R101_02    0.18    0.04    0.33    0.52    0.41    0.46    0.20    0.12    0.24
+R101_03    0.00   -0.12   -0.14    0.07    0.02    0.08   -0.05   -0.19    0.02
+R101_04    0.17    0.04    0.04    0.13    0.15    0.12    0.28    0.27    0.07
+R101_05    0.20    0.25    0.45    0.36    0.21    0.18    0.41    0.30    0.31
+R101_06    0.16    0.01    0.35    0.41    0.31    0.31    0.19    0.12    0.28
+R101_07    0.36    0.03    0.51    0.57    0.51    0.53    0.49    0.33    0.46
+R101_08   -0.03    0.76    0.28    0.16    0.05    0.06    0.23    0.26    0.04
+R101_09    0.17    0.39    0.17    0.17    0.07    0.08    0.21    0.16    0.08
+R101_10    1.00   -0.09    0.21    0.31    0.32    0.33    0.18    0.07    0.03
+R101_11   -0.09    1.00    0.19    0.08   -0.03   -0.09    0.11    0.23    0.08
+R101_12    0.21    0.19    1.00    0.42    0.23    0.28    0.33    0.22    0.28
+R101_13    0.31    0.08    0.42    1.00    0.50    0.58    0.35    0.29    0.37
+R101_14    0.32   -0.03    0.23    0.50    1.00    0.71    0.30    0.24    0.35
+R101_15    0.33   -0.09    0.28    0.58    0.71    1.00    0.30    0.31    0.39
+R101_16    0.18    0.11    0.33    0.35    0.30    0.30    1.00    0.54    0.22
+R101_17    0.07    0.23    0.22    0.29    0.24    0.31    0.54    1.00    0.34
+R101_18    0.03    0.08    0.28    0.37    0.35    0.39    0.22    0.34    1.00
+R101_19    0.05    0.04    0.09    0.36    0.17    0.31    0.22    0.31    0.41
+R101_20    0.20    0.18    0.19    0.35    0.36    0.29    0.42    0.44    0.37
+R101_21    0.25    0.10    0.16    0.28    0.34    0.31    0.32    0.40    0.38
+R101_22    0.26    0.29    0.26    0.15    0.08    0.09    0.21    0.18    0.16
+R101_23    0.12   -0.23   -0.12    0.15    0.25    0.21    0.04    0.11    0.12
+R101_24    0.08   -0.23   -0.16    0.13    0.20    0.25    0.04    0.13    0.10
+        R101_19 R101_20 R101_21 R101_22 R101_23 R101_24
+R101_01    0.07    0.28    0.18    0.40    0.01   -0.17
+R101_02    0.11    0.32    0.19    0.24    0.06    0.05
+R101_03    0.12    0.03    0.03   -0.21    0.03    0.31
+R101_04    0.28    0.45    0.56    0.17    0.09    0.19
+R101_05    0.14    0.40    0.18    0.39   -0.07   -0.12
+R101_06    0.13    0.17    0.02    0.19   -0.12   -0.06
+R101_07    0.24    0.32    0.30    0.15    0.07    0.10
+R101_08    0.01    0.13    0.08    0.35   -0.25   -0.22
+R101_09    0.02    0.18    0.07    0.67   -0.03   -0.13
+R101_10    0.05    0.20    0.25    0.26    0.12    0.08
+R101_11    0.04    0.18    0.10    0.29   -0.23   -0.23
+R101_12    0.09    0.19    0.16    0.26   -0.12   -0.16
+R101_13    0.36    0.35    0.28    0.15    0.15    0.13
+R101_14    0.17    0.36    0.34    0.08    0.25    0.20
+R101_15    0.31    0.29    0.31    0.09    0.21    0.25
+R101_16    0.22    0.42    0.32    0.21    0.04    0.04
+R101_17    0.31    0.44    0.40    0.18    0.11    0.13
+R101_18    0.41    0.37    0.38    0.16    0.12    0.10
+R101_19    1.00    0.42    0.43    0.14    0.19    0.19
+R101_20    0.42    1.00    0.64    0.16    0.11    0.23
+R101_21    0.43    0.64    1.00    0.15    0.15    0.22
+R101_22    0.14    0.16    0.15    1.00    0.08   -0.11
+R101_23    0.19    0.11    0.15    0.08    1.00    0.45
+R101_24    0.19    0.23    0.22   -0.11    0.45    1.00</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Und hier noch zur Freude aller eine grafische Darstellung der Korrelationen:</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>items <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  corrr<span class="sc">::</span><span class="fu">correlate</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  corrr<span class="sc">::</span><span class="fu">rplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Correlation computed with
+• Method: 'pearson'
+• Missing treated using: 'pairwise.complete.obs'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Ubung3_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="bartlett-test" class="level3">
+<h3 class="anchored" data-anchor-id="bartlett-test">3.2.1 Bartlett-Test</h3>
+<p>Unterscheiden sich die Korrelationen aller Variablen mit allen anderen Variablen von 0? Etwas technischer: Hebt sich die tatsächliche Korrelationsmatrix (mit den 1 in der Diagonale und Werten daneben für die Kombis) von einer Matrix ab, die nur Nullen neben der Diagonalen hat?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>items <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  psych<span class="sc">::</span><span class="fu">cortest.bartlett</span>(<span class="fu">nrow</span>(DATEN)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$chisq
+[1] 1772.52
+
+$p.value
+[1] 1.953148e-216
+
+$df
+[1] 276</code></pre>
+</div>
+</div>
+<p>Volle Lotte!</p>
+</section>
+<section id="kmo-test" class="level3">
+<h3 class="anchored" data-anchor-id="kmo-test">3.2.2 KMO-Test</h3>
+<p>Der KMO fragt im Grunde, wie viel eine Variable mit irgendwelchen übrigen Variablen gemeinsam hat. Wenn der Wert nahe 1 ist, ist eine Variable für eine Faktorenanalyse mit den übrigen Variablen geeignet. Den MSA (Measure of Sampling Adequacy) gibt es für jedes item, aber auch für als Gesamtmass für alle Variablen. Unser Wert hier von .78 ist schon ganz gut.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># aus der Vorlage:</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">KMO</span>(items)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kaiser-Meyer-Olkin factor adequacy
+Call: psych::KMO(r = items)
+Overall MSA =  0.78
+MSA for each item = 
+R101_01 R101_02 R101_03 R101_04 R101_05 R101_06 R101_07 R101_08 R101_09 R101_10 
+   0.85    0.83    0.55    0.67    0.87    0.77    0.88    0.69    0.72    0.73 
+R101_11 R101_12 R101_13 R101_14 R101_15 R101_16 R101_17 R101_18 R101_19 R101_20 
+   0.62    0.88    0.90    0.81    0.80    0.79    0.80    0.76    0.75    0.83 
+R101_21 R101_22 R101_23 R101_24 
+   0.80    0.71    0.62    0.72 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># oder schöner mit Pipe statt Schachtel:</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>items <span class="sc">|&gt;</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  psych<span class="sc">::</span><span class="fu">KMO</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kaiser-Meyer-Olkin factor adequacy
+Call: psych::KMO(r = items)
+Overall MSA =  0.78
+MSA for each item = 
+R101_01 R101_02 R101_03 R101_04 R101_05 R101_06 R101_07 R101_08 R101_09 R101_10 
+   0.85    0.83    0.55    0.67    0.87    0.77    0.88    0.69    0.72    0.73 
+R101_11 R101_12 R101_13 R101_14 R101_15 R101_16 R101_17 R101_18 R101_19 R101_20 
+   0.62    0.88    0.90    0.81    0.80    0.79    0.80    0.76    0.75    0.83 
+R101_21 R101_22 R101_23 R101_24 
+   0.80    0.71    0.62    0.72 </code></pre>
+</div>
+</div>
+</section>
+<section id="parallelanalyse" class="level3">
+<h3 class="anchored" data-anchor-id="parallelanalyse">3.2.3 Parallelanalyse</h3>
+<p>Mit der Parallelanalyse kann festgestellt werden, wie viele Faktoren aus einem item-set extrahiert werden können bzw. sollten. Ein Orientierungspunkt ist der Eigenwert, also der Wert der angibt, ob ein Faktor mehr Varianz (&gt;1) oder weniger (&lt;1) als eine einzelne Variable auf sich vereint. Wenn der Eigenwert fast gleich 1 ist, kann man sagen, dass es schon noch sinnvoll ist den aufzunehmen, aber auch sagen, dass in dem Fall keine Dimensionsreduktion mehr stattfindet und der Faktor nicht mehr aufgenommen wird. Generell empfehle ich in Zweifelsfällen, die Analysen mal mit dem einen Faktor mehr und einmal mit dem Faktor weniger durchzuführen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>items <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  psych<span class="sc">::</span><span class="fu">fa.parallel</span>(<span class="co"># fa = "fa"</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                     )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Ubung3_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parallel analysis suggests that the number of factors =  4  and the number of components =  3 </code></pre>
+</div>
+</div>
+<p>Wir gehen erstmal von 3 Hauptkomponten aus und probieren aber auch 4.</p>
+</section>
+<section id="die-faktorenanalyse" class="level3">
+<h3 class="anchored" data-anchor-id="die-faktorenanalyse">3.2.4 Die Faktorenanalyse</h3>
+<p>Direkt einfach nur die Faktorenanalyse.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>items <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  psych<span class="sc">::</span><span class="fu">fa</span>(<span class="at">nfactors =</span> <span class="dv">4</span>, </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">rotate =</span> <span class="st">"promax"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required namespace: GPArotation</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Factor Analysis using method =  minres
+Call: psych::fa(r = items, nfactors = 4, rotate = "promax")
+Standardized loadings (pattern matrix) based upon correlation matrix
+          MR1   MR3   MR2   MR4   h2   u2 com
+R101_01  0.35  0.03  0.28  0.31 0.46 0.54 2.9
+R101_02  0.55 -0.06 -0.08  0.19 0.37 0.63 1.3
+R101_03  0.00  0.08 -0.29 -0.14 0.12 0.88 1.6
+R101_04 -0.31  0.62 -0.16  0.31 0.48 0.52 2.2
+R101_05  0.36  0.11  0.33  0.27 0.52 0.48 3.1
+R101_06  0.74 -0.24  0.13 -0.11 0.44 0.56 1.3
+R101_07  0.77  0.09  0.00 -0.09 0.61 0.39 1.1
+R101_08  0.00  0.19  0.69  0.16 0.59 0.41 1.3
+R101_09 -0.11 -0.02  0.18  0.81 0.69 0.31 1.1
+R101_10  0.32 -0.07 -0.26  0.30 0.24 0.76 3.0
+R101_11 -0.19  0.31  0.65  0.10 0.50 0.50 1.7
+R101_12  0.56 -0.03  0.28  0.00 0.41 0.59 1.5
+R101_13  0.71  0.10 -0.09 -0.02 0.56 0.44 1.1
+R101_14  0.64  0.09 -0.28  0.00 0.51 0.49 1.4
+R101_15  0.72  0.08 -0.30 -0.05 0.60 0.40 1.4
+R101_16  0.28  0.39  0.17  0.03 0.38 0.62 2.2
+R101_17  0.10  0.60  0.21 -0.09 0.42 0.58 1.3
+R101_18  0.42  0.32  0.04 -0.16 0.34 0.66 2.2
+R101_19  0.09  0.54 -0.08 -0.12 0.32 0.68 1.2
+R101_20  0.08  0.72  0.02  0.01 0.59 0.41 1.0
+R101_21 -0.05  0.80 -0.09 -0.01 0.61 0.39 1.0
+R101_22  0.00 -0.03  0.12  0.72 0.57 0.43 1.1
+R101_23  0.03  0.12 -0.49  0.16 0.26 0.74 1.3
+R101_24  0.00  0.29 -0.51 -0.03 0.36 0.64 1.6
+
+                       MR1  MR3  MR2  MR4
+SS loadings           3.99 2.91 2.24 1.83
+Proportion Var        0.17 0.12 0.09 0.08
+Cumulative Var        0.17 0.29 0.38 0.46
+Proportion Explained  0.36 0.26 0.20 0.17
+Cumulative Proportion 0.36 0.63 0.83 1.00
+
+ With factor correlations of 
+     MR1   MR3   MR2  MR4
+MR1 1.00  0.48  0.11 0.40
+MR3 0.48  1.00 -0.05 0.36
+MR2 0.11 -0.05  1.00 0.23
+MR4 0.40  0.36  0.23 1.00
+
+Mean item complexity =  1.6
+Test of the hypothesis that 4 factors are sufficient.
+
+df null model =  276  with the objective function =  11.28 with Chi Square =  1761.24
+df of  the model are 186  and the objective function was  2.86 
+
+The root mean square of the residuals (RMSR) is  0.05 
+The df corrected root mean square of the residuals is  0.07 
+
+The harmonic n.obs is  166 with the empirical chi square  262.91  with prob &lt;  0.00018 
+The total n.obs was  166  with Likelihood Chi Square =  438.34  with prob &lt;  2e-22 
+
+Tucker Lewis Index of factoring reliability =  0.743
+RMSEA index =  0.09  and the 90 % confidence intervals are  0.08 0.102
+BIC =  -512.49
+Fit based upon off diagonal values = 0.96
+Measures of factor score adequacy             
+                                                   MR1  MR3  MR2  MR4
+Correlation of (regression) scores with factors   0.95 0.93 0.90 0.90
+Multiple R square of scores with factors          0.90 0.86 0.80 0.82
+Minimum correlation of possible factor scores     0.79 0.72 0.61 0.63</code></pre>
+</div>
+</div>
+<p>Erstmal die (unrotiert) Faktorenanalyse in m.ml.u speichern und dann ausgeben mit <code>print()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>m.ml.u <span class="ot">&lt;-</span> items <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  psych<span class="sc">::</span><span class="fu">fa</span>( </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">nfactors=</span><span class="dv">4</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n.obs =</span> <span class="fu">nrow</span>(DATEN),</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">SMC=</span><span class="cn">TRUE</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">rotate=</span><span class="st">"none"</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">max.iter=</span><span class="dv">100</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(m.ml.u)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Factor Analysis using method =  minres
+Call: psych::fa(r = items, nfactors = 4, n.obs = nrow(DATEN), rotate = "none", 
+    SMC = TRUE, max.iter = 100)
+Standardized loadings (pattern matrix) based upon correlation matrix
+          MR1   MR2   MR3   MR4   h2   u2 com
+R101_01  0.58 -0.33 -0.08  0.08 0.46 0.54 1.7
+R101_02  0.55  0.04 -0.22  0.15 0.37 0.63 1.5
+R101_03 -0.08  0.34  0.03  0.01 0.12 0.88 1.1
+R101_04  0.35  0.14  0.56  0.15 0.48 0.52 2.0
+R101_05  0.63 -0.34 -0.05  0.02 0.52 0.48 1.6
+R101_06  0.45 -0.06 -0.48 -0.09 0.44 0.56 2.1
+R101_07  0.71  0.14 -0.29 -0.08 0.61 0.39 1.5
+R101_08  0.38 -0.63  0.10 -0.20 0.59 0.41 1.9
+R101_09  0.42 -0.52  0.21  0.45 0.69 0.31 3.3
+R101_10  0.37  0.12 -0.09  0.30 0.24 0.76 2.3
+R101_11  0.25 -0.57  0.23 -0.24 0.50 0.50 2.2
+R101_12  0.53 -0.20 -0.27 -0.11 0.41 0.59 1.9
+R101_13  0.68  0.19 -0.24  0.00 0.56 0.44 1.4
+R101_14  0.59  0.34 -0.20  0.08 0.51 0.49 1.9
+R101_15  0.62  0.39 -0.25  0.06 0.60 0.40 2.1
+R101_16  0.60 -0.03  0.09 -0.12 0.38 0.62 1.1
+R101_17  0.53  0.02  0.26 -0.25 0.42 0.58 1.9
+R101_18  0.53  0.16 -0.03 -0.18 0.34 0.66 1.4
+R101_19  0.41  0.27  0.24 -0.15 0.32 0.68 2.8
+R101_20  0.63  0.18  0.37 -0.14 0.59 0.41 1.9
+R101_21  0.54  0.29  0.47 -0.12 0.61 0.39 2.6
+R101_22  0.44 -0.42  0.14  0.42 0.57 0.43 3.2
+R101_23  0.12  0.41  0.12  0.27 0.26 0.74 2.1
+R101_24  0.10  0.55  0.18  0.12 0.36 0.64 1.4
+
+                       MR1  MR2  MR3  MR4
+SS loadings           5.87 2.60 1.59 0.91
+Proportion Var        0.24 0.11 0.07 0.04
+Cumulative Var        0.24 0.35 0.42 0.46
+Proportion Explained  0.54 0.24 0.14 0.08
+Cumulative Proportion 0.54 0.77 0.92 1.00
+
+Mean item complexity =  2
+Test of the hypothesis that 4 factors are sufficient.
+
+df null model =  276  with the objective function =  11.28 with Chi Square =  1761.24
+df of  the model are 186  and the objective function was  2.86 
+
+The root mean square of the residuals (RMSR) is  0.05 
+The df corrected root mean square of the residuals is  0.07 
+
+The harmonic n.obs is  166 with the empirical chi square  262.91  with prob &lt;  0.00018 
+The total n.obs was  166  with Likelihood Chi Square =  438.34  with prob &lt;  2e-22 
+
+Tucker Lewis Index of factoring reliability =  0.743
+RMSEA index =  0.09  and the 90 % confidence intervals are  0.08 0.102
+BIC =  -512.49
+Fit based upon off diagonal values = 0.96
+Measures of factor score adequacy             
+                                                   MR1  MR2  MR3  MR4
+Correlation of (regression) scores with factors   0.96 0.92 0.88 0.81
+Multiple R square of scores with factors          0.93 0.85 0.77 0.66
+Minimum correlation of possible factor scores     0.85 0.69 0.54 0.32</code></pre>
+</div>
+</div>
+<p>Hier mal nur die Faktorladungen (alle und nur für Ladungen über .4):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(m.ml.u<span class="sc">$</span>loadings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Loadings:
+        MR1    MR2    MR3    MR4   
+R101_01  0.583 -0.330              
+R101_02  0.548        -0.217  0.153
+R101_03         0.340              
+R101_04  0.354  0.144  0.556  0.146
+R101_05  0.635 -0.345              
+R101_06  0.445        -0.478       
+R101_07  0.707  0.141 -0.294       
+R101_08  0.376 -0.631        -0.200
+R101_09  0.420 -0.518  0.207  0.453
+R101_10  0.366  0.124         0.297
+R101_11  0.252 -0.567  0.232 -0.242
+R101_12  0.534 -0.197 -0.267 -0.111
+R101_13  0.684  0.188 -0.244       
+R101_14  0.586  0.345 -0.201       
+R101_15  0.621  0.388 -0.250       
+R101_16  0.596               -0.120
+R101_17  0.535         0.261 -0.248
+R101_18  0.532  0.164        -0.183
+R101_19  0.406  0.270  0.238 -0.147
+R101_20  0.632  0.182  0.372 -0.135
+R101_21  0.545  0.293  0.468 -0.117
+R101_22  0.443 -0.419  0.136  0.420
+R101_23  0.120  0.407  0.120  0.266
+R101_24         0.547  0.184  0.124
+
+                 MR1   MR2   MR3   MR4
+SS loadings    5.874 2.597 1.588 0.906
+Proportion Var 0.245 0.108 0.066 0.038
+Cumulative Var 0.245 0.353 0.419 0.457</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(m.ml.u<span class="sc">$</span>loadings, <span class="at">cutoff=</span>.<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Loadings:
+        MR1    MR2    MR3    MR4   
+R101_01  0.583                     
+R101_02  0.548                     
+R101_03                            
+R101_04                0.556       
+R101_05  0.635                     
+R101_06  0.445        -0.478       
+R101_07  0.707                     
+R101_08        -0.631              
+R101_09  0.420 -0.518         0.453
+R101_10                            
+R101_11        -0.567              
+R101_12  0.534                     
+R101_13  0.684                     
+R101_14  0.586                     
+R101_15  0.621                     
+R101_16  0.596                     
+R101_17  0.535                     
+R101_18  0.532                     
+R101_19  0.406                     
+R101_20  0.632                     
+R101_21  0.545         0.468       
+R101_22  0.443 -0.419         0.420
+R101_23         0.407              
+R101_24         0.547              
+
+                 MR1   MR2   MR3   MR4
+SS loadings    5.874 2.597 1.588 0.906
+Proportion Var 0.245 0.108 0.066 0.038
+Cumulative Var 0.245 0.353 0.419 0.457</code></pre>
+</div>
+</div>
+</section>
+<section id="rotierte-faktorenlösung" class="level3">
+<h3 class="anchored" data-anchor-id="rotierte-faktorenlösung">3.2.5. Rotierte Faktorenlösung</h3>
+<p>Die initiale Faktorextraktion geht in der Regel schrittweise vor, indem der erste Faktor das Maximale an Varianz versucht zu erfassen. Der zweite Faktor kann noch den Rest (praktisch die Residuen der der ersten Faktorgeraden) abbilden. Der dritte Faktor den dann noch übrigen Rest und so weiter. Wenn das gemacht ist, kann man schauen, wie viele Faktoren noch ausreichend Varianz aufklären (Eigenwerte &gt;1). Dann haben wir aber das Problem, dass die aufgeklärte Varianz nicht gut auf die Faktoren verteilt ist. Aber wir können unsere extrahierten Faktoren (sagen wir 4) noch gut in dem 4-dimensionalen Raum drehen und anpassen, so dass jeder Faktor möglichst gleich viel Varianzproportionen abbildet (VARIMAX-Methode), während die Faktoren unkorreliert bleiben müssen (orthogonal). Etwas realistischer ist allerdings die Methode, bei der jeder Faktor maximale Varianzproportionen (promax) auf sich vereint und die Faktoren leicht miteinander korrelieren dürfen (oblimin):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>m.ml.r <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">fa</span>(items, </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">nfactors=</span><span class="dv">4</span>,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n.obs =</span> <span class="fu">nrow</span>(items),</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">SMC=</span><span class="cn">TRUE</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fm=</span><span class="st">"ml"</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#rotate="varimax",</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">rotate=</span><span class="st">"promax"</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">max.iter=</span><span class="dv">100</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(m.ml.r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Factor Analysis using method =  ml
+Call: psych::fa(r = items, nfactors = 4, n.obs = nrow(items), rotate = "promax", 
+    SMC = TRUE, max.iter = 100, fm = "ml")
+Standardized loadings (pattern matrix) based upon correlation matrix
+          ML2   ML3   ML4   ML1   h2    u2 com
+R101_01  0.21  0.08  0.66 -0.08 0.55 0.451 1.3
+R101_02  0.55 -0.02  0.15 -0.03 0.36 0.640 1.2
+R101_03  0.08  0.07 -0.41  0.05 0.15 0.853 1.2
+R101_04 -0.35  0.82  0.21 -0.10 0.50 0.500 1.5
+R101_05  0.20  0.14  0.68 -0.05 0.62 0.383 1.3
+R101_06  0.67 -0.35  0.18 -0.05 0.40 0.596 1.7
+R101_07  0.74 -0.02  0.08 -0.01 0.57 0.425 1.0
+R101_08  0.12 -0.01  0.21  0.68 0.67 0.325 1.2
+R101_09 -0.05  0.17  0.51  0.17 0.38 0.617 1.5
+R101_10  0.30  0.10  0.13 -0.16 0.18 0.819 2.1
+R101_11 -0.04  0.12 -0.07  1.03 1.00 0.005 1.0
+R101_12  0.48 -0.11  0.30  0.06 0.38 0.618 1.9
+R101_13  0.77  0.00 -0.06  0.10 0.57 0.434 1.0
+R101_14  0.78  0.04 -0.26  0.07 0.57 0.425 1.3
+R101_15  0.88 -0.02 -0.29  0.03 0.68 0.320 1.2
+R101_16  0.21  0.33  0.36 -0.06 0.39 0.607 2.7
+R101_17  0.13  0.44  0.10  0.16 0.34 0.663 1.6
+R101_18  0.42  0.20 -0.01  0.07 0.31 0.688 1.5
+R101_19  0.13  0.47 -0.12  0.06 0.30 0.703 1.3
+R101_20  0.04  0.73  0.11  0.08 0.60 0.400 1.1
+R101_21 -0.05  0.83 -0.01  0.04 0.64 0.357 1.0
+R101_22 -0.01  0.16  0.52  0.06 0.34 0.658 1.2
+R101_23  0.11  0.22 -0.19 -0.17 0.16 0.836 3.4
+R101_24  0.11  0.32 -0.38 -0.09 0.30 0.700 2.3
+
+                       ML2  ML3  ML4  ML1
+SS loadings           4.03 2.76 2.45 1.74
+Proportion Var        0.17 0.12 0.10 0.07
+Cumulative Var        0.17 0.28 0.39 0.46
+Proportion Explained  0.37 0.25 0.22 0.16
+Cumulative Proportion 0.37 0.62 0.84 1.00
+
+ With factor correlations of 
+     ML2   ML3  ML4   ML1
+ML2 1.00  0.55 0.30  0.00
+ML3 0.55  1.00 0.06 -0.03
+ML4 0.30  0.06 1.00  0.48
+ML1 0.00 -0.03 0.48  1.00
+
+Mean item complexity =  1.5
+Test of the hypothesis that 4 factors are sufficient.
+
+df null model =  276  with the objective function =  11.28 with Chi Square =  1761.24
+df of  the model are 186  and the objective function was  2.66 
+
+The root mean square of the residuals (RMSR) is  0.06 
+The df corrected root mean square of the residuals is  0.07 
+
+The harmonic n.obs is  166 with the empirical chi square  299.5  with prob &lt;  2.5e-07 
+The total n.obs was  166  with Likelihood Chi Square =  408.45  with prob &lt;  1e-18 
+
+Tucker Lewis Index of factoring reliability =  0.773
+RMSEA index =  0.085  and the 90 % confidence intervals are  0.074 0.096
+BIC =  -542.38
+Fit based upon off diagonal values = 0.96
+Measures of factor score adequacy             
+                                                   ML2  ML3  ML4  ML1
+Correlation of (regression) scores with factors   0.95 0.93 0.91 1.00
+Multiple R square of scores with factors          0.90 0.86 0.83 0.99
+Minimum correlation of possible factor scores     0.81 0.72 0.66 0.98</code></pre>
+</div>
+</div>
+<p>Jetzt schauen wir mal die Faktorenladungen an und unterdrücken in der Ausgabe alle Werte, die kleiner gleich .3 sind und lassen nach der Grösse der Faktorladungen sortieren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">print.psych</span>(m.ml.r, <span class="at">cut=</span><span class="fl">0.3</span>, <span class="at">sort=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Factor Analysis using method =  ml
+Call: psych::fa(r = items, nfactors = 4, n.obs = nrow(items), rotate = "promax", 
+    SMC = TRUE, max.iter = 100, fm = "ml")
+Standardized loadings (pattern matrix) based upon correlation matrix
+        item   ML2   ML3   ML4   ML1   h2    u2 com
+R101_15   15  0.88                   0.68 0.320 1.2
+R101_14   14  0.78                   0.57 0.425 1.3
+R101_13   13  0.77                   0.57 0.434 1.0
+R101_07    7  0.74                   0.57 0.425 1.0
+R101_06    6  0.67 -0.35             0.40 0.596 1.7
+R101_02    2  0.55                   0.36 0.640 1.2
+R101_12   12  0.48        0.30       0.38 0.618 1.9
+R101_18   18  0.42                   0.31 0.688 1.5
+R101_10   10  0.30                   0.18 0.819 2.1
+R101_21   21        0.83             0.64 0.357 1.0
+R101_04    4 -0.35  0.82             0.50 0.500 1.5
+R101_20   20        0.73             0.60 0.400 1.1
+R101_19   19        0.47             0.30 0.703 1.3
+R101_17   17        0.44             0.34 0.663 1.6
+R101_23   23                         0.16 0.836 3.4
+R101_05    5              0.68       0.62 0.383 1.3
+R101_01    1              0.66       0.55 0.451 1.3
+R101_22   22              0.52       0.34 0.658 1.2
+R101_09    9              0.51       0.38 0.617 1.5
+R101_03    3             -0.41       0.15 0.853 1.2
+R101_24   24        0.32 -0.38       0.30 0.700 2.3
+R101_16   16        0.33  0.36       0.39 0.607 2.7
+R101_11   11                    1.03 1.00 0.005 1.0
+R101_08    8                    0.68 0.67 0.325 1.2
+
+                       ML2  ML3  ML4  ML1
+SS loadings           4.03 2.76 2.45 1.74
+Proportion Var        0.17 0.12 0.10 0.07
+Cumulative Var        0.17 0.28 0.39 0.46
+Proportion Explained  0.37 0.25 0.22 0.16
+Cumulative Proportion 0.37 0.62 0.84 1.00
+
+ With factor correlations of 
+     ML2   ML3  ML4   ML1
+ML2 1.00  0.55 0.30  0.00
+ML3 0.55  1.00 0.06 -0.03
+ML4 0.30  0.06 1.00  0.48
+ML1 0.00 -0.03 0.48  1.00
+
+Mean item complexity =  1.5
+Test of the hypothesis that 4 factors are sufficient.
+
+df null model =  276  with the objective function =  11.28 with Chi Square =  1761.24
+df of  the model are 186  and the objective function was  2.66 
+
+The root mean square of the residuals (RMSR) is  0.06 
+The df corrected root mean square of the residuals is  0.07 
+
+The harmonic n.obs is  166 with the empirical chi square  299.5  with prob &lt;  2.5e-07 
+The total n.obs was  166  with Likelihood Chi Square =  408.45  with prob &lt;  1e-18 
+
+Tucker Lewis Index of factoring reliability =  0.773
+RMSEA index =  0.085  and the 90 % confidence intervals are  0.074 0.096
+BIC =  -542.38
+Fit based upon off diagonal values = 0.96
+Measures of factor score adequacy             
+                                                   ML2  ML3  ML4  ML1
+Correlation of (regression) scores with factors   0.95 0.93 0.91 1.00
+Multiple R square of scores with factors          0.90 0.86 0.83 0.99
+Minimum correlation of possible factor scores     0.81 0.72 0.66 0.98</code></pre>
+</div>
+</div>
+<p>Man kann auch Diagramme rauslassen, die allerdings noch etwas Nacharbeit brauchen würden, bis sie gut lesbar sind. Dazu sollte man im Fall die Vignette von psych konsultieren.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>m.ml.r <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  psych<span class="sc">::</span><span class="fu">fa.diagram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Ubung3_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="faktoren-in-die-daten-speichern" class="level2">
+<h2 class="anchored" data-anchor-id="faktoren-in-die-daten-speichern">Faktoren in die Daten speichern</h2>
+<p>Das Speichern ist nicht so einfach, weil die Faktoren der Faktoranalyse nur als Vectoren ausgegeben werden und dann nur für die Fälle, die keine fehlenden Werte in den Variablen der Faktorenanlyse haben. Darum muss man (wenn man fehlende Werte hat) erstmal einen Hilfsdatensatz erstellen mit den Fall-IDs (bei uns die CASES). Dann bindet man die neuen Faktor$scores mit column bind <code>cbind()</code> zusammen und kann das dann mit <code>left_join</code> an den ursprünglichen Datensatz matchen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Cases <span class="ot">&lt;-</span> DATEN <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(CASE, R101_01<span class="sc">:</span>R101_24) <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>Faktoren <span class="ot">&lt;-</span> items <span class="sc">|&gt;</span> </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  psych<span class="sc">::</span><span class="fu">factor.scores</span>(<span class="at">f =</span> m.ml.r, <span class="at">method =</span> <span class="st">"Thurstone"</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>Faktoren_der_Faelle <span class="ot">&lt;-</span> <span class="fu">cbind</span>(Cases, Faktoren<span class="sc">$</span>scores)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>DATEN <span class="ot">&lt;-</span> DATEN <span class="sc">|&gt;</span> </span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(Faktoren_der_Faelle, <span class="at">by =</span> <span class="st">"CASE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        for (let i = 0; i < 2; i++) {
+          container.appendChild(note.children[i].cloneNode(true));
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

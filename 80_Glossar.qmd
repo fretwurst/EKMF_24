@@ -1,0 +1,43 @@
+# Glossar {.unnumbered}
+
+```{r}
+#| echo: false
+#| include: false
+
+source('files/_common.R')
+```
+
+```{r}
+#| label: Glossar
+#| echo: false
+
+Glossar <- readxl::read_excel("files/Vokabelliste.xlsx")
+
+if(knitr::is_html_output()){
+  Glossar |> 
+    mutate(Nr = row_number()) |>
+    filter(Sitzung != 9) |> 
+    select(Nr, Sitzung, Inhalt, Deutsch, Englisch) |> 
+    arrange(Deutsch) |> 
+    DT::datatable(elementId = NULL, rownames= FALSE, filter = list(
+    position = 'top', plain = TRUE, clear = FALSE),
+                  extensions = 'Buttons',
+                  options = list(
+                      dom = 'frtipB',
+      buttons = c('copy',  'excel', 'pdf', 'print'),
+                      pageLength = 1000,
+    lengthMenu = c(10, 20, 50, 75, 100),
+    columnDefs = list(list(
+              className = 'dt-left', targets = 2:4
+            ))
+                ))
+                }
+if(knitr::is_latex_output()){
+   Glossar |> 
+    filter(Sitzung != 9) |> 
+    select(Sitzung, Inhalt, Deutsch, Englisch) |> 
+    arrange(Deutsch) |>
+    kableExtra::kable("latex", longtable = T, booktabs = T) %>%
+  kableExtra::kable_styling(latex_options = c("repeat_header"), font_size = 7)
+}
+```

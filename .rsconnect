@@ -1,0 +1,5 @@
+provider: sftp
+host: sftp.ikmz.uzh.ch
+port: 22
+username: info
+path: info.ikmz.uzh.ch/EKMF
