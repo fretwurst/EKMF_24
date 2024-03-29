@@ -50,10 +50,6 @@ po/*~
 
 # folder
 public/
-*_files
-**/*_files
-Folien/**/images
-Folien/**/*.html
 
 # DS_Store
 .DS_Store
